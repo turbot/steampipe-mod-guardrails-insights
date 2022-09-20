@@ -124,7 +124,7 @@ query "installed_aws_mods_list" {
   select
     title as "Mod Name",
     id,
-    substring('https://taurus.astro.cs.turbot.io/' from 'https://([a-z]+)(.)' ) as "Workspace",
+    substring(workspace from 'https://([a-z]+)(.)' ) as "Workspace",
     workspace as "Workspace URL"
   from turbot_resource
   where filter = 'resourceTypeId:"tmod:@turbot/turbot#/resource/types/mod" level:self'
@@ -140,7 +140,7 @@ query "installed_azure_mods_list" {
   select
     title as "Mod Name",
     id,
-    substring('https://taurus.astro.cs.turbot.io/' from 'https://([a-z]+)(.)' ) as "Workspace",
+    substring(workspace from 'https://([a-z]+)(.)' ) as "Workspace",
     workspace as "Workspace URL"
   from turbot_resource
   where filter = 'resourceTypeId:"tmod:@turbot/turbot#/resource/types/mod" level:self'
@@ -155,7 +155,7 @@ query "installed_gcp_mods_list" {
   select
     title as "Mod Name",
     id,
-    substring('https://taurus.astro.cs.turbot.io/' from 'https://([a-z]+)(.)' ) as "Workspace",
+    substring(workspace from 'https://([a-z]+)(.)' ) as "Workspace",
     workspace as "Workspace URL"
   from turbot_resource as "List of Installed GCP Mods"
   where filter = 'resourceTypeId:"tmod:@turbot/turbot#/resource/types/mod" level:self'
