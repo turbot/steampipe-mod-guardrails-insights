@@ -1,89 +1,41 @@
 ﻿dashboard "turbot_mods" {
-  title = "Turbot Mods"
+  title = "Turbot Mods Dashboard"
   container {
     title = "Installed Mods Summary"
     card {
       sql   = query.installed_mods_count.sql
       width = 2
     }
-    #    chart {
-    #      title = "Mod Auto Update"
-    #      type = "donut"
-    #      sql = query.mod_auto_update.sql
-    #      width = 2
-    #    }
+    card {
+
+      sql   = query.mod_auto_update.sql
+      width = 2
+    }
   }
   container {
     card {
       sql   = query.installed_aws_mods_count.sql
       width = 4
+      href  = dashboard.mods_installed_aws.url_path
     }
     card {
       sql   = query.installed_azure_mods_count.sql
       width = 4
+      href  = dashboard.mods_installed_azure.url_path
     }
     card {
       sql   = query.installed_gcp_mods_count.sql
       width = 4
+      href  = dashboard.mods_installed_gcp.url_path
     }
   }
-  container {
-    title = "Installed Mods List"
-    table {
-      title = "AWS Mods List"
-      query = query.installed_aws_mods_list
-      width = 4
-      column "id" {
-        display = "none"
-      }
-      column "Workspace URL" {
-        display = "none"
-      }
-      column "Mod Name" {
-        href = <<EOT
-{{ ."Workspace URL" }}/apollo/admin/mods/{{.'id' | @uri}}
-        EOT
-      }
-    }
-    table {
-      title = "Azure Mods List"
-      query = query.installed_azure_mods_list
-      width = 4
-      column "id" {
-        display = "none"
-      }
-      column "Workspace URL" {
-        display = "none"
-      }
-      column "Mod Name" {
-        href = <<EOT
-{{ ."Workspace URL" }}/apollo/admin/mods/{{.'id' | @uri}}
-        EOT
-      }
-    }
-    table {
-      title = "GCP Mods List"
-      query = query.installed_gcp_mods_list
-      width = 4
-      column "id" {
-        display = "none"
-      }
-      column "Workspace URL" {
-        display = "none"
-      }
-      column "Mod Name" {
-        href = <<EOT
-{{ ."Workspace URL" }}/apollo/admin/mods/{{.'id' | @uri}}
-        EOT
-      }
-    }
-  }
+
 }
 
 query "installed_mods_count" {
   title = "Count of Installed Mods"
   sql   = <<EOQ
-  select count(*) as "Mods Count"
+  select count(*) as "Installed Mods"
   from turbot_resource
   where filter = 'resourceTypeId:"tmod:@turbot/turbot#/resource/types/mod" level:self';
 EOQ
@@ -166,13 +118,8 @@ EOQ
 
 query "mod_auto_update" {
   sql = <<EOQ
-with mod_auto as (select count(*) as result, 'count' as count
-                  from turbot_policy_setting
-                  where filter = 'policyTypeId:"tmod:@turbot/turbot#/policy/types/modAutoUpdate" level:self'),
-     workspace_count as (select count(*) as result, 'count' as count
-                         from turbot_resource
-                         where filter = 'resourceTypeId:"tmod:@turbot/turbot#/resource/types/turbot" level:self')
-select ma.result, wc.result from mod_auto ma
-join workspace_count wc using(count)
+select count(*) as "Workspaces with Auto Update Enabled"
+  from turbot_policy_setting
+  where filter = 'policyTypeId:"tmod:@turbot/turbot#/policy/types/modAutoUpdate" level:self'
 EOQ
 }
