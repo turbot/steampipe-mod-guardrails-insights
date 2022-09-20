@@ -42,26 +42,26 @@ dashboard "turbot_controls_state" {
     }
     
     table {
-      title = "Oldest control in Error"
+      title = "Oldest controls in Error"
       sql = query.turbot_controls_oldest_error.sql
     }
 
     table {
-      title = "Oldest control in Alarm"
+      title = "Oldest controls in Alarm"
       sql = query.turbot_controls_oldest_alarm.sql
     }
 
     table {
-      title = "Oldest control in Invalid"
+      title = "Oldest controls in Invalid"
       sql = query.turbot_controls_oldest_invalid.sql
     }
 
     chart {
-      type  = "bar"
-      title = "Highest number of controls in Alarm"
+      type  = "column"
+      title = "Highest number of controls in Alarm by service"
       sql = query.turbot_controls_highest_alarm_count.sql
       axes {
-        x {
+        y {
           title {
             value = "Count"
             display = "always"
@@ -109,7 +109,8 @@ query "turbot_controls_oldest_error" {
     select 
       now()::date - update_timestamp::date as "Age in Days",
       control_type_trunk_title as "Control Title",
-      resource_trunk_title as "Resource Title"
+      resource_trunk_title as "Resource Title",
+      workspace as "Workspace"
     from 
       turbot_control
     where 
@@ -151,7 +152,8 @@ query "turbot_controls_oldest_alarm" {
     select 
       now()::date - update_timestamp::date as "Age in Days",
       control_type_trunk_title as "Control Title",
-      resource_trunk_title as "Resource Title"
+      resource_trunk_title as "Resource Title",
+      workspace as "Workspace"
     from 
       turbot_control
     where 
@@ -193,7 +195,8 @@ query "turbot_controls_oldest_invalid" {
     select 
       now()::date - update_timestamp::date as "Age in Days",
       control_type_trunk_title as "Control Title",
-      resource_trunk_title as "Resource Title"
+      resource_trunk_title as "Resource Title",
+      workspace as "Workspace"
     from 
       turbot_control
     where 
@@ -206,53 +209,78 @@ query "turbot_controls_oldest_invalid" {
 
 query "turbot_controls_highest_alarm_count" {
   sql = <<-EOQ
+    with alarm_controls as (
+      select
+        control_type_uri,
+        workspace
+      from 
+        turbot_control
+      where
+        state='alarm'
+    )
     select
-      concat(split_part(control_type_uri,'/',2),'/', split_part(control_type_uri,'/',5)) as "Control Type",
-      count(*) as"Count"
-    from turbot_control
-    where 
-      state='alarm'
+      replace(split_part(control_type_uri,'/',2),'#','') as "Control Type",
+      workspace as "Workspace",
+      count(*) as "Count"
+    from
+      alarm_controls
     group by
-      control_type_uri
+      control_type_uri, workspace
     order by
-      "Count" asc;
+      "Count" desc;
   EOQ
 }
 
 query "turbot_controls_resource_with_most_alarms" {
   sql = <<-EOQ
-    with alarm_controls as (
+    with alarm_controls_group as (
+      with alarm_controls as (
+        select
+          resource_type_uri,
+          workspace
+        from
+          turbot_control
+        where
+          state='alarm'
+      )
       select
         resource_type_uri,
+        workspace,
         count(*) as alarm_count
       from
-        turbot_control
-      where
-        state='alarm'
+        alarm_controls
       group by
-        resource_type_uri
-    ),
-    ok_controls as (
+        resource_type_uri, workspace
+    )
+    , ok_controls_group as (
+      with ok_controls as (
+        select
+          resource_type_uri,
+          workspace
+        from
+          turbot_control
+        where
+          state='ok'
+      )
       select
         resource_type_uri,
+        workspace,
         count(*) as ok_count
       from
-        turbot_control
-      where
-        state='ok'
+        ok_controls
       group by
-        resource_type_uri
+        resource_type_uri, workspace
     )
     select
-      ac.resource_type_uri as "Resource Type",
-      ac.alarm_count as "Alarm Count",
-      oc.ok_count as "Ok Count"
-      -- ac.alarm_count::decimal / oc.ok_count::decimal as "Ratio"
+      acg.resource_type_uri as "Resource Type",
+      acg.alarm_count as "Alarm Count",
+      ocg.ok_count as "Ok Count",
+      acg.workspace as "Workspace"
     from
-      alarm_controls as ac
-      left join ok_controls oc on ac.resource_type_uri = oc.resource_type_uri
+      alarm_controls_group as acg
+      left join ok_controls_group ocg on acg.resource_type_uri = ocg.resource_type_uri and acg.workspace = ocg.workspace
     order by
-      ac.alarm_count desc
+      acg.alarm_count desc
     limit 10;
   EOQ
 }
