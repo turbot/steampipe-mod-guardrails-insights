@@ -1,12 +1,16 @@
-dashboard "mod_installed_errors"{
-    title = "Mod Installed Errors"
-  container{
-  text{
-    value = "These mods have some problem that prevents them from installing or updating properly. These should be resolved as soon as possible."
-  }
+dashboard "mod_mod_installed_errors_report" {
+  title = "Mod Installed Errors Report"
+  tags  = merge(local.mod_common_tags, {
+    type     = "Report"
+    category = "Installation Errors"
+  })
+  container {
+    text {
+      value = "These mods have some problem that prevents them from installing or updating properly. These should be resolved as soon as possible."
+    }
     card {
       title = "Number of Mod Installed Errors"
-      sql = query.mod_installed_controls_error.sql
+      sql   = query.mod_installed_controls_error.sql
       width = 2
     }
   }
@@ -56,18 +60,19 @@ with controls_list as (select id                                              as
                        from turbot_control
                        where filter =
                              'state:error controlTypeId:"tmod:@turbot/turbot#/control/types/modInstalled" level:self'),
-
-     mods_resources as (select substr(title
-         , 9)                                                                  as mod_name
-
-
-                             , id                                              as resource_id
+     mods_resources as (select substr(title, 9) as mod_name
+                             , id               as resource_id
                         from turbot_resource
                         where filter = 'resourceTypeId:"tmod:@turbot/turbot#/resource/types/mod" level:self')
-select mr.mod_name as "Mod Name", con.control_id, con.control_reason as "Reason", con.control_details as "Detail", mr.resource_id, con."Workspace", con."Workspace URL"
-       from controls_list con
-left join mods_resources mr on con.resource_id=mr.resource_id;
-
+select mr.mod_name         as "Mod Name",
+       con.control_id,
+       con.control_reason  as "Reason",
+       con.control_details as "Detail",
+       mr.resource_id,
+       con."Workspace",
+       con."Workspace URL"
+from controls_list con
+         left join mods_resources mr on con.resource_id = mr.resource_id;
 EOQ
 }
 
