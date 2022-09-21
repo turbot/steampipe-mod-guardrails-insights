@@ -4,13 +4,13 @@ mod "turbot_insights" {
   description = "Create dashboards and reports for your Turbot resources using Steampipe."
   color       = "#FF9900"
   # documentation = file("./docs/index.md")
-  # icon          = "/images/mods/turbot/aws-insights.svg"
+  # icon          = "/images/mod/turbot/aws-insights.svg"
   # categories    = ["aws", "dashboard", "public cloud"]
 
   opengraph {
     title       = "Steampipe Mod for Turbot Insights"
     description = "Create dashboards and reports for your Turbot resources using Steampipe."
-    # image       = "/images/mods/turbot/aws-insights-social-graphic.png"
+    # image       = "/images/mod/turbot/aws-insights-social-graphic.png"
   }
 
   require {
