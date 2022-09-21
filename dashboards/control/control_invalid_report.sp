@@ -1,5 +1,5 @@
 dashboard "turbot_control_invalid_report" {
-  title = "Turbot Controls in Invalid Report"
+  title = "Controls in Invalid Report"
   documentation = file("./dashboards/control/docs/control_invalid_report.md")
   tags = merge(local.control_common_tags, {
     type     = "Report"

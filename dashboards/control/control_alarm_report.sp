@@ -1,5 +1,5 @@
 dashboard "turbot_control_alarm_report" {
-  title = "Turbot Controls in Alarm Report"
+  title = "Controls in Alarm Report"
   documentation = file("./dashboards/control/docs/control_alarm_report.md")
   tags = merge(local.control_common_tags, {
     type     = "Report"

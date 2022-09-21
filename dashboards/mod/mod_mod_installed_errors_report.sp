@@ -32,9 +32,7 @@ dashboard "mod_mod_installed_errors_report" {
       column "resource_id" {
         display = "none"
       }
-
     }
-
   }
 }
 query "mod_installed_controls_error" {
