@@ -34,8 +34,8 @@ query "workspace_version" {
     select
       workspace as "Workspace URL",
       value as "Version",
-      _ctx ->> 'connection_name' as "Connection",
-      resource_id as "Turbot Id"
+      _ctx ->> 'connection_name' as "Connection Name",
+      resource_id as "Turbot ID"
     from
       turbot_policy_setting
     where

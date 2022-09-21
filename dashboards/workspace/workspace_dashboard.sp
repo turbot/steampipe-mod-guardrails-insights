@@ -95,7 +95,7 @@ dashboard "workspace_dashboard" {
 
       sql = <<-EOQ
         select
-        _ctx -> 'connection_name' as "Workspace",
+        _ctx ->> 'connection_name' as "Connection Name",
         case
           when resource_type_uri = 'tmod:@turbot/aws#/resource/types/account' then 'AWS'
           when resource_type_uri = 'tmod:@turbot/azure#/resource/types/subscription' then 'Azure'
