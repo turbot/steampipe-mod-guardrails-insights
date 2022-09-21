@@ -54,9 +54,7 @@ dashboard "mod_installed_mods_report" {
       }
     }
   }
-
 }
-
 
 query "installed_aws_mods_list" {
   sql = <<EOQ

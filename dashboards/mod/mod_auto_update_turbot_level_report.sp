@@ -22,7 +22,7 @@ dashboard "mod_auto_update_turbot_level_report" {
 }
 
 query "mod_auto_update_turbot_level_list" {
-  title = ""
+  title = "List of Auto Update policies set at the Turbot level"
   sql   = <<EOQ
 select 'Mod Auto Update' as "Mod Auto Update Policy",
 id as policy_id,
@@ -30,7 +30,6 @@ value as "Setting",
 workspace as "Workspace"
 from turbot_policy_setting
 where filter = 'policyTypeId:"tmod:@turbot/turbot#/policy/types/modAutoUpdate" level:self'
-and resource_trunk_title like 'Turbot'
-;
+and resource_trunk_title like 'Turbot';
 EOQ
 }

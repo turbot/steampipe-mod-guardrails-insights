@@ -20,10 +20,8 @@ dashboard "mod_auto_update_mod_level_report" {
   }
 }
 
-
-
 query "mod_auto_update_mod_level_list" {
-  title = ""
+  title = "List of Mod level Auto Update policy settings"
   sql   = <<EOQ
 select 'Mod Auto Update' as "Mod Auto Update Policy",
 id as policy_id,

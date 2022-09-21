@@ -34,27 +34,24 @@ dashboard "mod_auto_update_dashboard" {
       href  = dashboard.mod_auto_update_mod_level_schedules_report.url_path
     }
   }
-
 }
 
 query "mod_auto_update_mod_level" {
-  title = ""
+  title = "Count of Mod Auto Update policies set on individual mods"
   sql   = <<EOQ
 select count(*)
 from turbot_policy_setting
 where filter = 'policyTypeId:"tmod:@turbot/turbot#/policy/types/modAutoUpdate" level:self'
-and resource_trunk_title not like 'Turbot'
-;
+and resource_trunk_title not like 'Turbot';
 EOQ
 }
 
 query "mod_auto_update_turbot_level" {
-  title = ""
+  title = "Count of Mod Auto Update policies set at the Turbot level"
   sql   = <<EOQ
 select count(*)
 from turbot_policy_setting
 where filter = 'policyTypeId:"tmod:@turbot/turbot#/policy/types/modAutoUpdate" level:self'
-and resource_trunk_title  like 'Turbot'
-;
+and resource_trunk_title  like 'Turbot';
 EOQ
 }
