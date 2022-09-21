@@ -11,7 +11,7 @@ dashboard "mod_auto_update_mod_level_schedules_report" {
       column "policy_id" {
         display = "none"
       }
-      column "Update Schedule" {
+      column "Update Schedule Policy" {
         href = <<EOT
 {{ ."Workspace" }}/apollo/policies/settings/{{.'policy_id' | @uri}}
         EOT
@@ -21,9 +21,8 @@ dashboard "mod_auto_update_mod_level_schedules_report" {
 }
 
 query "mod_auto_update_schedule" {
-  title = ""
   sql   = <<EOQ
-select count(*)
+select count(*) as "Turbot Level Update Schedules"
 from turbot_policy_setting
 where filter = 'policyTypeId:"tmod:@turbot/turbot#/policy/types/modChangeWindowSchedule" level:self'
 and resource_trunk_title not like 'Turbot';
@@ -31,9 +30,11 @@ EOQ
 }
 
 query "mod_auto_update_schedule_list" {
-  title = "Mod Auto Update Schedules"
   sql   = <<EOQ
-select 'Update Schedule' as "Update Schedule", id as policy_id, value_source::json #>> '{0,description}' as "Schedule", workspace as "Workspace"
+select policy_type_trunk_title as "Update Schedule Policy",
+id as policy_id,
+value_source::json #>> '{0,description}' as "Schedule",
+workspace as "Workspace"
 from turbot_policy_setting
 where filter = 'policyTypeId:"tmod:@turbot/turbot#/policy/types/modChangeWindowSchedule" level:self';
 EOQ

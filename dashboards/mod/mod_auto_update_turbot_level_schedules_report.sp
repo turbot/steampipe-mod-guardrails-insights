@@ -11,7 +11,7 @@ dashboard "mod_auto_update_turbot_level_schedules_report" {
       column "policy_id" {
         display = "none"
       }
-      column "Update Schedule" {
+      column "Update Schedule Policy" {
         href = <<EOT
 {{ ."Workspace" }}/apollo/policies/settings/{{.'policy_id' | @uri}}
         EOT
