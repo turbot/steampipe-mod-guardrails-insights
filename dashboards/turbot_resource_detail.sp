@@ -9,19 +9,52 @@ dashboard "turbot_resource_detail" {
       # width = "4"
     }
 
-    table {
-      title = "Resource Types By Provider"
-      sql   = <<-EOQ
-        select
-        sum(case when mod_uri like 'tmod:@turbot/aws-%' then 1 else 0 end) as "AWS",
-        sum(case when mod_uri like 'tmod:@turbot/azure-%' then 1 else 0 end) as "Azure",
-        sum(case when mod_uri like 'tmod:@turbot/gcp-%' then 1 else 0 end) as "GCP",
-        count(*) as "Total"
-        from
-        turbot_resource_type;
-      EOQ
-      type  = "column"
+    chart {
+      type  = "bar"
       width = 6
+      title = "Top 25 Resource Types"
+
+      legend {
+        display  = "auto"
+        position = "top"
+      }
+      axes {
+        x {
+          title {
+            value = "Regions"
+          }
+          labels {
+            display = "auto"
+          }
+        }
+        y {
+          title {
+            value = "Totals"
+          }
+          labels {
+            display = "show"
+          }
+          min = 0
+          max = 100
+        }
+      }
+
+      sql = <<-EOQ
+        select
+        resource_type_uri as "URI",
+        count(*)
+        from
+        turbot_resource
+        where
+        resource_type_uri not like 'tmod:@turbot/turbot%'
+        group by
+        resource_type_uri
+        order by
+        count ASC
+        limit
+        25
+    EOQ
+
     }
   }
 

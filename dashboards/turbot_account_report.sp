@@ -13,6 +13,33 @@ dashboard "turbot_account_report" {
 
     chart {
       title = "Accounts by Workspace"
+
+      legend {
+        display  = "auto"
+        position = "top"
+      }
+
+      axes {
+        x {
+          title {
+            value = "Workspaces"
+          }
+          labels {
+            display = "auto"
+          }
+        }
+        y {
+          title {
+            value = "Total Accounts"
+          }
+          labels {
+            display = "auto"
+          }
+          # min = 50
+          # max = 100
+        }
+      }
+
       sql   = <<-EOQ
         select
         _ctx -> 'connection_name' as "Workspace",
@@ -24,8 +51,7 @@ dashboard "turbot_account_report" {
         end as "Account Type",
         count(id)
         from
-        turbot_resource
-        --turbot_resource
+        turbot_saas_prod.turbot_resource
         where
         resource_type_uri in (
         'tmod:@turbot/aws#/resource/types/account',
