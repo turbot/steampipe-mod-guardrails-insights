@@ -29,6 +29,82 @@ dashboard "turbot_control_dashboard" {
       href = dashboard.turbot_control_invalid_report.url_path
     }
 
+    container {
+      title = "Control states by workspaces"
+
+      chart {
+        type  = "donut"
+        title = "Error"
+        width = 4
+        sql = <<-EOQ
+          with error_controls as (
+            select
+              id,
+              split_part(workspace,'//',2) as workspace
+            from 
+              turbot_control
+            where
+              state='error'
+          )
+          select
+            workspace as "Workspace",
+            count(*) as "Count"
+          from
+            error_controls
+          group by
+            workspace
+        EOQ
+      }
+
+      chart {
+        type  = "donut"
+        title = "Alarm"
+        width = 4
+        sql = <<-EOQ
+          with alarm_controls as (
+            select
+              id,
+              split_part(workspace,'//',2) as workspace
+            from 
+              turbot_control
+            where
+              state='alarm'
+          )
+          select
+            workspace as "Workspace",
+            count(*) as "Count"
+          from
+            alarm_controls
+          group by
+            workspace
+        EOQ
+      }
+
+      chart {
+        type  = "donut"
+        title = "Invalid"
+        width = 4
+        sql = <<-EOQ
+          with invalid_controls as (
+            select
+              id,
+              split_part(workspace,'//',2) as workspace
+            from 
+              turbot_control
+            where
+              state='invalid'
+          )
+          select
+            workspace as "Workspace",
+            count(*) as "Count"
+          from
+            invalid_controls
+          group by
+            workspace
+        EOQ
+      }
+    }
+
     chart {
       type  = "column"
       title = "Highest number of controls in Alarm by service"
