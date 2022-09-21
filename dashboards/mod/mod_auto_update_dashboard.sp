@@ -1,6 +1,6 @@
 dashboard "mod_auto_update_dashboard" {
   title = "Mod Auto Update Dashboard"
-  tags  = merge(local.mods_common_tags, {
+  tags  = merge(local.mod_common_tags, {
     type     = "Dashboard"
     category = "Auto Update"
   })

@@ -1,6 +1,6 @@
 dashboard "mod_auto_update_mod_level_report" {
   title = "Turbot Level Mod Auto Update Report"
-  tags  = merge(local.mods_common_tags, {
+  tags  = merge(local.mod_common_tags, {
     type     = "Report"
     category = "Auto Update"
   })

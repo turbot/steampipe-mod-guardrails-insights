@@ -1,6 +1,6 @@
 dashboard "mod_mod_installed_errors_report" {
   title = "Mod Installed Errors Report"
-  tags  = merge(local.mods_common_tags, {
+  tags  = merge(local.mod_common_tags, {
     type     = "Report"
     category = "Installation Errors"
   })

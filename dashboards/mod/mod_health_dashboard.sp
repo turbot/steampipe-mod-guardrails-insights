@@ -1,6 +1,6 @@
 dashboard "mod_health_dashboard" {
   title = "Turbot Mod Health Dashboard"
-    tags = merge(local.mods_common_tags, {
+    tags = merge(local.mod_common_tags, {
     type     = "Dashboard"
     category = "Health"
   })

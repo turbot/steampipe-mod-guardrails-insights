@@ -1,6 +1,6 @@
 dashboard "mod_installed_mods_report" {
   title = "Mods Installed"
-  tags  = merge(local.mods_common_tags, {
+  tags  = merge(local.mod_common_tags, {
     type     = "Report"
     category = "Installed"
   })
