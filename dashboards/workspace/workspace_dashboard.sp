@@ -6,7 +6,7 @@ dashboard "workspace_dashboard" {
 
   tags = merge(local.workspace_common_tags, {
     type     = "Dashboard"
-    category = "Workspace"
+    category = "Summary"
   })
 
   # Analysis
@@ -25,10 +25,10 @@ dashboard "workspace_dashboard" {
       href  = dashboard.workspace_account_report.url_path
     }
 
-    card {
-      sql   = query.workspace_resource_count.sql
-      width = 2
-    }
+    # card {
+    #   sql   = query.workspace_resource_count.sql
+    #   width = 2
+    # }
 
   }
 
@@ -144,13 +144,13 @@ query "workspace_account_count" {
   EOQ
 }
 
-query "workspace_resource_count" {
-  sql = <<-EOQ
-    select
-      count(id) as "Resources"
-    from
-      turbot_resource
-    where 
-      filter = 'resourceTypeId:tmod:@turbot/aws#/resource/types/aws,tmod:@turbot/azure#/resource/types/azure,tmod:@turbot/gcp#/resource/types/gcp,tmod:@turbot/kubernetes#/resource/types/kubernetes,tmod:@turbot/turbot#/resource/types/folder,tmod:@turbot/turbot#/resource/types/file,tmod:@turbot/turbot#/resource/types/smartFolder'
-  EOQ
-}
+# query "workspace_resource_count" {
+#   sql = <<-EOQ
+#     select
+#       count(id) as "Resources"
+#     from
+#       turbot_resource
+#     where 
+#       filter = 'resourceTypeId:tmod:@turbot/aws#/resource/types/aws,tmod:@turbot/azure#/resource/types/azure,tmod:@turbot/gcp#/resource/types/gcp,tmod:@turbot/kubernetes#/resource/types/kubernetes,tmod:@turbot/turbot#/resource/types/folder,tmod:@turbot/turbot#/resource/types/file,tmod:@turbot/turbot#/resource/types/smartFolder'
+#   EOQ
+# }

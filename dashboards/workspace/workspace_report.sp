@@ -2,14 +2,14 @@ dashboard "workspace_report" {
   title         = "Workspace Report"
   documentation = file("./dashboards/workspace/docs/workspace_report.md")
   tags = merge(local.workspace_common_tags, {
-    type = "Report"
-    # category = "Age"
+    type     = "Report"
+    category = "Summary"
   })
 
   # Analysis
   container {
     text {
-      value = "The workspace report, gives you a detailed analysis of all the Turbot Workspace you are connected to along with the TE Version they are on."
+      value = "The workspace report gives a detailed analysis of all connected Turbot Workspace(s) along with their TE Version."
       # width = "4"
     }
 

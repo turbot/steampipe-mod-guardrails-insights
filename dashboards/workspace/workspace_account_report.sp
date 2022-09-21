@@ -3,8 +3,8 @@ dashboard "workspace_account_report" {
   title         = "Account Report"
   documentation = file("./dashboards/workspace/docs/workspace_account_report.md")
   tags = merge(local.workspace_common_tags, {
-    type = "Report"
-    # category = "Age"
+    type     = "Report"
+    category = "Summary"
   })
 
   # Analysis
@@ -40,7 +40,7 @@ dashboard "workspace_account_report" {
 
       column "Account Id" {
         href = <<EOT
-{{ ."Workspace" }}/apollo/resources/{{.'id' | @uri}}/reports
+{{ ."Workspace" }}/apollo/resources/{{.'id' | @uri}}/detail
         EOT
       }
       sql = query.workspace_account_detail.sql
