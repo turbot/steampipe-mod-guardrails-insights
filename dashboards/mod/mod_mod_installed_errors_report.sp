@@ -9,7 +9,6 @@ dashboard "mod_mod_installed_errors_report" {
       value = "These mods have some problem that prevents them from installing or updating properly. These should be resolved as soon as possible."
     }
     card {
-      title = "Number of Mod Installed Errors"
       sql   = query.mod_installed_controls_error.sql
       width = 2
     }
