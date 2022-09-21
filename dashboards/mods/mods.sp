@@ -1,5 +1,17 @@
-﻿dashboard "turbot_mods" {
+﻿locals {
+  controls_common_tags = {
+    service = "Turbot/Mods"
+  }
+}
+
+
+dashboard "turbot_mods" {
   title = "Turbot Mods Dashboard"
+  tags = merge(local.controls_common_tags, {
+    type     = "Dashboard"
+    category = "Mods"
+  })
+
   container {
     title = "Installed Mods Summary"
     card {
