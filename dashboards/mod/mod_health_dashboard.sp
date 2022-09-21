@@ -1,7 +1,10 @@
-dashboard "turbot_mods_health" {
-  title = "Turbot Mods Health"
+dashboard "mod_health_dashboard" {
+  title = "Turbot Mod Health Dashboard"
+    tags = merge(local.mods_common_tags, {
+    type     = "Dashboard"
+    category = "Health"
+  })
   container {
-    title = "Identify if Mods are installed properly"
     card {
       title = "Mods Installed"
       sql   = query.installed_mods_count.sql
@@ -12,14 +15,14 @@ dashboard "turbot_mods_health" {
       width = 2
       sql   = query.mod_installed_controls_error.sql
       type  = "alert"
-      href = dashboard.mod_installed_errors.url_path
+      href = dashboard.mod_mod_installed_errors_report.url_path
     }
     card {
       title = "Type Installed Errors"
       width = 2
       sql   = query.type_installed_controls_error.sql
       type  = "alert"
-      href = dashboard.type_installed_errors.url_path
+      href = dashboard.mod_type_installed_errors_report.url_path
     }
   }
 

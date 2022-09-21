@@ -1,15 +1,10 @@
-﻿locals {
-  controls_common_tags = {
-    service = "Turbot/Mods"
-  }
-}
 
-
-dashboard "turbot_mods" {
+dashboard "mod_dashboard" {
   title = "Turbot Mods Dashboard"
-  tags = merge(local.controls_common_tags, {
+  documentation = file("./dashboards/mod/docs/mod_dashboard.md")
+  tags = merge(local.mods_common_tags, {
     type     = "Dashboard"
-    category = "Mods"
+    category = "Summary"
   })
 
   container {
@@ -28,17 +23,17 @@ dashboard "turbot_mods" {
     card {
       sql   = query.installed_aws_mods_count.sql
       width = 4
-      href  = dashboard.mods_installed_aws.url_path
+      href  = dashboard.mod_installed_mods_report.url_path
     }
     card {
       sql   = query.installed_azure_mods_count.sql
       width = 4
-      href  = dashboard.mods_installed_azure.url_path
+      href  = dashboard.mod_installed_mods_report.url_path
     }
     card {
       sql   = query.installed_gcp_mods_count.sql
       width = 4
-      href  = dashboard.mods_installed_gcp.url_path
+      href  = dashboard.mod_installed_mods_report.url_path
     }
   }
 
@@ -83,50 +78,11 @@ query "installed_gcp_mods_count" {
 EOQ
 }
 
-query "installed_aws_mods_list" {
-  sql = <<EOQ
-  select
-    title as "Mod Name",
-    id,
-    substring(workspace from 'https://([a-z]+)(.)' ) as "Workspace",
-    workspace as "Workspace URL"
-  from turbot_resource
-  where filter = 'resourceTypeId:"tmod:@turbot/turbot#/resource/types/mod" level:self'
-  and substring(title from 9 for 3) like 'aws'
-  order by title;
-EOQ
 
 
-}
 
-query "installed_azure_mods_list" {
-  sql = <<EOQ
-  select
-    title as "Mod Name",
-    id,
-    substring(workspace from 'https://([a-z]+)(.)' ) as "Workspace",
-    workspace as "Workspace URL"
-  from turbot_resource
-  where filter = 'resourceTypeId:"tmod:@turbot/turbot#/resource/types/mod" level:self'
-  and substring(title from 9 for 5) like 'azure'
-order by title;
-EOQ
-}
 
-query "installed_gcp_mods_list" {
-  column = none
-  sql    = <<EOQ
-  select
-    title as "Mod Name",
-    id,
-    substring(workspace from 'https://([a-z]+)(.)' ) as "Workspace",
-    workspace as "Workspace URL"
-  from turbot_resource as "List of Installed GCP Mods"
-  where filter = 'resourceTypeId:"tmod:@turbot/turbot#/resource/types/mod" level:self'
-  and substring(title from 9 for 3) like 'gcp'
-order by title;
-EOQ
-}
+
 
 query "mod_auto_update" {
   sql = <<EOQ
