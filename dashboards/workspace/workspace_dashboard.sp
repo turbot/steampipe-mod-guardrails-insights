@@ -1,9 +1,6 @@
-
 dashboard "workspace_dashboard" {
-
   title         = "Workspace Dashboard"
   documentation = file("./dashboards/workspace/docs/workspace_dashboard.md")
-
   tags = merge(local.workspace_common_tags, {
     type     = "Dashboard"
     category = "Summary"

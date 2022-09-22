@@ -1,5 +1,5 @@
 dashboard "turbot_control_dashboard" {
-  title = "Turbot Controls Dashboard"
+  title = "Controls Dashboard"
   documentation = file("./dashboards/control/docs/control_dashboard.md")
   tags = merge(local.control_common_tags, {
     type     = "Dashboard"
