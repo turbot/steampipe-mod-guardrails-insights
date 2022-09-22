@@ -8,16 +8,16 @@ dashboard "mod_dashboard" {
 
   container {
     title = "Mods Summary"
-#    card {
-#      sql   = query.installed_mods_count.sql
-#      width = 2
-#      href  = dashboard.mod_installed_mods_report.url_path
-#    }
-#    card {
-#      sql   = query.mod_auto_update.sql
-#      width = 2
-#      href  = dashboard.mod_auto_update_dashboard.url_path
-#    }
+    #    card {
+    #      sql   = query.installed_mods_count.sql
+    #      width = 2
+    #      href  = dashboard.mod_installed_mods_report.url_path
+    #    }
+    #    card {
+    #      sql   = query.mod_auto_update.sql
+    #      width = 2
+    #      href  = dashboard.mod_auto_update_dashboard.url_path
+    #    }
     card {
       width = 2
       sql   = query.mod_installed_controls_error.sql
@@ -38,6 +38,57 @@ dashboard "mod_dashboard" {
         title = "Mods by Cloud Platform"
         width = 4
       }
+      chart {
+        title = "Mods by Workspace"
+        type  = "bar"
+        width = 8
+
+        legend {
+          display  = "auto"
+          position = "top"
+        }
+
+        axes {
+          x {
+            title {
+              value = "Mods"
+            }
+            labels {
+              display = "auto"
+            }
+          }
+          y {
+            title {
+              value = "Workspace"
+            }
+            labels {
+              display = "auto"
+            }
+            # min = 50
+            # max = 100
+          }
+        }
+
+        sql = <<-EOQ
+        select
+        _ctx ->> 'connection_name' as "Connection Name",
+        case
+          when title like '@turbot/aws%' then 'AWS'
+          when title like '@turbot/azure%' then 'Azure'
+          when title like '@turbot/gcp%' then 'GCP'
+          when title like '@turbot/turbot%' then 'Turbot'
+        end as "Mod Platform",
+        count(title)
+        from
+        turbot_resource
+        where
+        resource_type_uri =  'tmod:@turbot/turbot#/resource/types/mod'
+        group by
+        "Connection Name",title
+        order by count(title) desc
+      EOQ
+      }
+
     }
     #    card {
     #      sql   = query.installed_aws_mods_count.sql
