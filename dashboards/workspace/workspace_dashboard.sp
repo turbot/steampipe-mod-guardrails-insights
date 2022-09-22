@@ -1,9 +1,6 @@
-
 dashboard "workspace_dashboard" {
-
   title         = "Workspace Dashboard"
   documentation = file("./dashboards/workspace/docs/workspace_dashboard.md")
-
   tags = merge(local.workspace_common_tags, {
     type     = "Dashboard"
     category = "Summary"
@@ -95,7 +92,7 @@ dashboard "workspace_dashboard" {
 
       sql = <<-EOQ
         select
-        _ctx -> 'connection_name' as "Workspace",
+        _ctx ->> 'connection_name' as "Connection Name",
         case
           when resource_type_uri = 'tmod:@turbot/aws#/resource/types/account' then 'AWS'
           when resource_type_uri = 'tmod:@turbot/azure#/resource/types/subscription' then 'Azure'

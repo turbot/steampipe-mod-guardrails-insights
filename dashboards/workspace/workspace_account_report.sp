@@ -1,5 +1,4 @@
 dashboard "workspace_account_report" {
-
   title         = "Account Report"
   documentation = file("./dashboards/workspace/docs/workspace_account_report.md")
   tags = merge(local.workspace_common_tags, {
@@ -38,9 +37,13 @@ dashboard "workspace_account_report" {
         display = "none"
       }
 
-      column "Account Id" {
+      column "workspace" {
+        display = "none"
+      }
+
+      column "Account ID" {
         href = <<EOT
-{{ ."Workspace" }}/apollo/resources/{{.'id' | @uri}}/detail
+{{ .'workspace' }}/apollo/resources/{{.'id' | @uri}}/detail
         EOT
       }
       sql = query.workspace_account_detail.sql
@@ -86,14 +89,14 @@ query "workspace_account_detail" {
   sql = <<-EOQ
     select
       id,
+      workspace,
       case
         when resource_type_uri = 'tmod:@turbot/aws#/resource/types/account' then data ->> 'Id'
         when resource_type_uri = 'tmod:@turbot/azure#/resource/types/subscription' then data ->> 'subscriptionId'
         when resource_type_uri = 'tmod:@turbot/gcp#/resource/types/project' then data ->> 'projectId'
-      end as "Account Id",
-      title as "Title",
+      end as "Account ID",
       trunk_title as "Trunk Title",
-      workspace as "Workspace"
+      _ctx ->> 'connection_name' as "Connection Name"
     from
       turbot_resource
     where
