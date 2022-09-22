@@ -1,5 +1,5 @@
 dashboard "turbot_control_error_report" {
-  title = "Turbot Controls in Error Report"
+  title = "Controls in Error Report"
   documentation = file("./dashboards/control/docs/control_error_report.md")
   tags = merge(local.control_common_tags, {
     type     = "Report"
