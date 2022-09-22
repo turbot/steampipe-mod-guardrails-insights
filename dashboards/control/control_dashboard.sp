@@ -12,21 +12,21 @@ dashboard "turbot_control_dashboard" {
       sql   = query.turbot_control_error_count.sql
       width = 2
       type = "alert"
-      href  = dashboard.turbot_control_error_report.url_path
+      href = "${dashboard.turbot_control_report_age.url_path}?input.control_state=error"
     }
 
     card {
       sql   = query.turbot_control_alarm_count.sql
       width = 2
       type = "alert"
-      href  = dashboard.turbot_control_alarm_report.url_path
+      href = "${dashboard.turbot_control_report_age.url_path}?input.control_state=alarm"
     }
 
     card {
       sql   = query.turbot_control_invalid_count.sql
       width = 2
       type = "alert"
-      href = dashboard.turbot_control_invalid_report.url_path
+      href = "${dashboard.turbot_control_report_age.url_path}?input.control_state=invalid"
     }
 
     container {
