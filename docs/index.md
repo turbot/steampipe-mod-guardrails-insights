@@ -1,8 +1,13 @@
-# Turbot Insights Mod for Steampipe
+---
+repository: "https://github.com/turbot/steampipe-mod-turbot-insights"
+---
 
-A Turbot dashboarding tool that can be used to view dashboards and reports across all of your Turbot workspaces.
+# Turbot Insights Mod
+
+Create dashboards and reports for your Turbot resources using Steampipe.
 
 <img src="https://raw.githubusercontent.com/turbot/steampipe-mod-turbot-insights/main/docs/images/turbot_workspace_dashboard.png" width="50%" type="thumbnail"/>
+<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-turbot-insights/main/docs/images/turbot_controls_age.png" width="50%" type="thumbnail"/>
 
 ## Overview
 
@@ -15,6 +20,18 @@ Dashboards can help answer questions like:
 - How many controls have an age of x hours/days?
 - How many mods are installed across all workspaces?
 
+## References
+
+[Turbot](https://turbot.com/v5) is a full-stack governance platform that automates discovery and remediation of your organization’s compliance, security, and operational objectives.
+
+[Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
+
+[Steampipe Mods](https://steampipe.io/docs/reference/mod-resources#mod) are collections of `named queries`, codified `controls` that can be used to test current configuration of your cloud resources against a desired configuration, and `dashboards` that organize and display key pieces of information.
+
+## Documentation
+
+- **[Dashboards →](https://hub.steampipe.io/mods/turbot/turbot_insights/dashboards)**
+
 ## Getting started
 
 ### Installation
@@ -26,7 +43,7 @@ brew tap turbot/tap
 brew install steampipe
 ```
 
-Install the Turbot plugin with [Steampipe](https://steampipe.io):
+Install the GCP plugin with [Steampipe](https://steampipe.io):
 
 ```sh
 steampipe plugin install turbot
