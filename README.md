@@ -2,7 +2,7 @@
 
 A Turbot dashboarding tool that can be used to view dashboards and reports across all of your Turbot workspaces.
 
-<!-- ![image](https://raw.githubusercontent.com/turbot/steampipe-mod-gcp-insights/main/docs/images/gcp_compute_instance_dashboard.png) -->
+<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-turbot-insights/main/docs/images/turbot_workspace_dashboard.png" width="50%" type="thumbnail"/>
 
 ## Overview
 
