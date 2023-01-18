@@ -42,7 +42,7 @@ dashboard "workspace_account_report" {
       }
 
       column "Account ID" {
-        href = <<EOT
+        href = <<-EOT
 {{ .'workspace' }}/apollo/resources/{{.'id' | @uri}}/detail
         EOT
       }
@@ -55,33 +55,33 @@ dashboard "workspace_account_report" {
 query "workspace_aws_count" {
   sql = <<-EOQ
     select
-      count(resource_type_uri) as "AWS"
+      count(resource_type_uri) as "AWS" 
     from
-      turbot_resource
+      turbot_resource 
     where
-      resource_type_uri = 'tmod:@turbot/aws#/resource/types/account'
+      resource_type_uri = 'tmod:@turbot/aws#/resource/types/account';
   EOQ
 }
 
 query "workspace_azure_count" {
   sql = <<-EOQ
     select
-      count(resource_type_uri) as "Azure"
+      count(resource_type_uri) as "Azure" 
     from
-      turbot_resource
+      turbot_resource 
     where
-      resource_type_uri = 'tmod:@turbot/azure#/resource/types/subscription'
+      resource_type_uri = 'tmod:@turbot/azure#/resource/types/subscription';
   EOQ
 }
 
 query "workspace_gcp_count" {
   sql = <<-EOQ
     select
-      count(resource_type_uri) as "GCP"
+      count(resource_type_uri) as "GCP" 
     from
-      turbot_resource
+      turbot_resource 
     where
-      resource_type_uri = 'tmod:@turbot/gcp#/resource/types/project'
+      resource_type_uri = 'tmod:@turbot/gcp#/resource/types/project';
   EOQ
 }
 
@@ -91,22 +91,28 @@ query "workspace_account_detail" {
       id,
       workspace,
       case
-        when resource_type_uri = 'tmod:@turbot/aws#/resource/types/account' then data ->> 'Id'
-        when resource_type_uri = 'tmod:@turbot/azure#/resource/types/subscription' then data ->> 'subscriptionId'
-        when resource_type_uri = 'tmod:@turbot/gcp#/resource/types/project' then data ->> 'projectId'
-      end as "Account ID",
-      trunk_title as "Trunk Title",
-      _ctx ->> 'connection_name' as "Connection Name"
+        when
+          resource_type_uri = 'tmod:@turbot/aws#/resource/types/account' 
+        then
+          data ->> 'Id' 
+        when
+          resource_type_uri = 'tmod:@turbot/azure#/resource/types/subscription' 
+        then
+          data ->> 'subscriptionId' 
+        when
+          resource_type_uri = 'tmod:@turbot/gcp#/resource/types/project' 
+        then
+          data ->> 'projectId' 
+      end
+      as "Account ID", trunk_title as "Trunk Title", _ctx ->> 'connection_name' as "Connection Name" 
     from
-      turbot_resource
+      turbot_resource 
     where
-      resource_type_uri in (
-        'tmod:@turbot/aws#/resource/types/account',
-        'tmod:@turbot/azure#/resource/types/subscription',
-        'tmod:@turbot/gcp#/resource/types/project'
+      resource_type_uri in 
+      (
+        'tmod:@turbot/aws#/resource/types/account', 'tmod:@turbot/azure#/resource/types/subscription', 'tmod:@turbot/gcp#/resource/types/project' 
       )
     order by
-      workspace,
-      trunk_title;
+      workspace, trunk_title;
   EOQ
 }

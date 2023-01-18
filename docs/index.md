@@ -43,7 +43,7 @@ brew tap turbot/tap
 brew install steampipe
 ```
 
-Install the GCP plugin with [Steampipe](https://steampipe.io):
+Install the Turbot plugin with [Steampipe](https://steampipe.io):
 
 ```sh
 steampipe plugin install turbot

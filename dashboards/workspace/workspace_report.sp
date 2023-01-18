@@ -9,8 +9,7 @@ dashboard "workspace_report" {
   # Analysis
   container {
     text {
-      value = "The workspace report gives a detailed analysis of all connected Turbot Workspace(s) along with their TE Version."
-      # width = "4"
+      value = "The workspace report gives a detailed analysis of all connected Turbot Workspace(s) along with their Turbot Enterprise(TE) Version."
     }
 
     card {
@@ -33,14 +32,14 @@ query "workspace_version" {
   sql = <<-EOQ
     select
       workspace as "Workspace URL",
-      value as "Version",
+      value as "TE Version",
       _ctx ->> 'connection_name' as "Connection Name",
-      resource_id as "Turbot ID"
+      resource_id as "Turbot ID" 
     from
-      turbot_policy_setting
+      turbot_policy_setting 
     where
-      policy_type_uri = 'tmod:@turbot/turbot#/policy/types/workspaceVersion'
-    order by 
+      policy_type_uri = 'tmod:@turbot/turbot#/policy/types/workspaceVersion' 
+    order by
       value;
   EOQ 
 }
