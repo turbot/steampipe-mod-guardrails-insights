@@ -1,4 +1,3 @@
 This report answers the following questions:
 
-- How many workspaces are there?
-- What TE version are they running?
+- What TE versions are active across workspaces?
