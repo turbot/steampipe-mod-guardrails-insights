@@ -137,7 +137,7 @@ query "installed_mods_by_platform" {
       end
       as "Mod_Platform", count(title) 
     from
-      punisher.turbot_resource 
+      turbot_resource 
     where
       resource_type_uri = 'tmod:@turbot/turbot#/resource/types/mod' 
     group by
