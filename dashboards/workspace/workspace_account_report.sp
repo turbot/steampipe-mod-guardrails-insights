@@ -9,7 +9,7 @@ dashboard "workspace_account_report" {
   # Analysis
   container {
     text {
-      value = "List of accounts across workspaces. Click on the resource to nagivate to the respective Turbot Console."
+      value = "List of accounts across workspaces. Click on the resource to navigate to the respective Turbot Console."
     }
 
     card {

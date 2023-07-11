@@ -66,11 +66,7 @@ dashboard "mod_dashboard" {
               when
                 title like '@turbot/gcp%' 
               then
-                'GCP' 
-              when
-                title like '@turbot/turbot%' 
-              then
-                'Turbot' 
+                'GCP'
             end
             as "Mod Platform", count(title) 
           from
@@ -129,10 +125,6 @@ query "installed_mods_by_platform" {
           title like '@turbot/gcp%' 
         then
           'GCP' 
-        when
-          title like '@turbot/turbot%' 
-        then
-          'Turbot'
         else 'Others' 
       end
       as "Mod_Platform", count(title) 

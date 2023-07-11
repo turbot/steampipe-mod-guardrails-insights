@@ -7,7 +7,7 @@ repository: "https://github.com/turbot/steampipe-mod-turbot-insights"
 Create dashboards and reports for your Turbot resources using Steampipe.
 
 <img src="https://raw.githubusercontent.com/turbot/steampipe-mod-turbot-insights/main/docs/images/turbot_workspace_dashboard.png" width="50%" type="thumbnail"/>
-<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-turbot-insights/main/docs/images/turbot_controls_age.png" width="50%" type="thumbnail"/>
+<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-turbot-insights/main/docs/images/turbot_controls_alarm_age.png" width="50%" type="thumbnail"/>
 
 ## Overview
 

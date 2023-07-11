@@ -12,34 +12,34 @@ dashboard "turbot_control_dashboard" {
       sql   = query.turbot_control_alarm_count.sql
       width = 2
       type  = "alert"
-      href  = "${dashboard.turbot_control_report_age.url_path}?input.control_state=alarm"
+      href  = dashboard.turbot_control_alarm_report_age.url_path
     }
 
     card {
       sql   = query.turbot_control_error_count.sql
       width = 2
       type  = "alert"
-      href  = "${dashboard.turbot_control_report_age.url_path}?input.control_state=error"
+      href  = dashboard.turbot_control_error_report_age.url_path
     }
 
     card {
       sql   = query.turbot_control_invalid_count.sql
       width = 2
       type  = "alert"
-      href  = "${dashboard.turbot_control_report_age.url_path}?input.control_state=invalid"
+      href  = dashboard.turbot_control_invalid_report_age.url_path
     }
 
     container {
       title = "Control states by workspaces"
 
       chart {
-        type  = "donut"
+        type  = "column"
         title = "Alarm"
         width = 4
         sql   = <<-EOQ
           select
             _ctx ->> 'connection_name' as "Connection Name",
-            count(state) as "Count" 
+            count(state) as "Count"
           from
             turbot_control 
           where
@@ -52,7 +52,7 @@ dashboard "turbot_control_dashboard" {
       }
 
       chart {
-        type  = "donut"
+        type  = "column"
         title = "Error"
         width = 4
         sql   = <<-EOQ
@@ -71,7 +71,7 @@ dashboard "turbot_control_dashboard" {
       }
 
       chart {
-        type  = "donut"
+        type  = "column"
         title = "Invalid"
         width = 4
         sql   = <<-EOQ
@@ -100,8 +100,9 @@ dashboard "turbot_control_dashboard" {
 query "turbot_control_error_count" {
   sql = <<-EOQ
     select
-      count(*) as value,
-      'Error' as label 
+      case when count(*) > 0 then count(*) else '0' end as value,
+      'Error' as label,
+      case when count(*) = 0 then 'ok' else 'alert' end as "type"
     from
       turbot_control 
     where
@@ -112,8 +113,9 @@ query "turbot_control_error_count" {
 query "turbot_control_alarm_count" {
   sql = <<-EOQ
     select
-      count(*) as value,
-      'Alarm' as label 
+      case when count(*) > 0 then count(*) else '0' end as value,
+      'Alarm' as label,
+      case when count(*) = 0 then 'ok' else 'alert' end as "type"
     from
       turbot_control 
     where
@@ -124,8 +126,9 @@ query "turbot_control_alarm_count" {
 query "turbot_control_invalid_count" {
   sql = <<-EOQ
     select
-      count(*) as value,
-      'Invalid' as label 
+      case when count(*) > 0 then count(*) else '0' end as value,
+      'Invalid' as label,
+      case when count(*) = 0 then 'ok' else 'alert' end as "type"
     from
       turbot_control 
     where

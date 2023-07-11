@@ -3,7 +3,7 @@ mod "turbot_insights" {
   title       = "Turbot Insights"
   description = "Create dashboards and reports for your Turbot resources using Steampipe."
   color       = "#FF9900"
-  # documentation = file("./docs/index.md")
+  documentation = file("./docs/index.md")
   # icon          = "/images/mod/turbot/aws-insights.svg"
   # categories    = ["aws", "dashboard", "public cloud"]
 
@@ -16,7 +16,7 @@ mod "turbot_insights" {
   require {
     steampipe = "0.16.2"
     plugin "turbot" {
-      version = "0.9.0"
+      version = "0.10.0"
     }
   }
 }
