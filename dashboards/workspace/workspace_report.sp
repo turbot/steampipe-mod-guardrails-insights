@@ -1,5 +1,5 @@
 dashboard "workspace_report" {
-  title         = "Workspace Report"
+  title         = "Turbot Workspace Report"
   documentation = file("./dashboards/workspace/docs/workspace_report.md")
   tags = merge(local.workspace_common_tags, {
     type     = "Report"

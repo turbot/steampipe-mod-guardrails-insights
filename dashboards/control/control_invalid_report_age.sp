@@ -1,5 +1,5 @@
 dashboard "turbot_control_invalid_report_age" {
-  title         = "Controls Invalid Age Report"
+  title         = "Turbot Controls Invalid Age Report"
   documentation = file("./dashboards/control/docs/control_invalid_report_age.md")
   tags = merge(local.control_common_tags, {
     type     = "Report"

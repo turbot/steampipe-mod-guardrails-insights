@@ -1,5 +1,5 @@
 dashboard "mod_dashboard" {
-  title         = "Mods Dashboard"
+  title         = "Turbot Mods Dashboard"
   documentation = file("./dashboards/mod/docs/mod_dashboard.md")
   tags = merge(local.mod_common_tags, {
     type     = "Dashboard"

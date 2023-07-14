@@ -1,5 +1,5 @@
 dashboard "turbot_control_error_report_age" {
-  title         = "Controls Error Age Report"
+  title         = "Turbot Controls Error Age Report"
   documentation = file("./dashboards/control/docs/control_error_report_age.md")
   tags = merge(local.control_common_tags, {
     type     = "Report"
