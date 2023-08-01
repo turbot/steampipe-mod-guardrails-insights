@@ -1,5 +1,5 @@
-dashboard "turbot_control_invalid_report_age" {
-  title         = "Turbot Controls Invalid Age Report"
+dashboard "control_invalid_report_age" {
+  title         = "Guardrails Controls Invalid Age Report"
   documentation = file("./dashboards/control/docs/control_invalid_report_age.md")
   tags = merge(local.control_common_tags, {
     type     = "Report"
@@ -9,42 +9,42 @@ dashboard "turbot_control_invalid_report_age" {
   container {
 
     card {
-      query = query.turbot_control_invalid_total_count
+      query = query.guardrails_control_invalid_total_count
       width = 2
       type  = "alert"
       label = "Count"
     }
 
     card {
-      query = query.turbot_control_invalid_24_hours_count
+      query = query.guardrails_control_invalid_24_hours_count
       width = 2
       type  = "alert"
       label = "< 24 hours"
     }
 
     card {
-      query = query.turbot_control_invalid_between_1_30_days
+      query = query.guardrails_control_invalid_between_1_30_days
       width = 2
       type  = "alert"
       label = "1-30 Days"
     }
 
     card {
-      query = query.turbot_control_invalid_between_30_90_days
+      query = query.guardrails_control_invalid_between_30_90_days
       width = 2
       type  = "alert"
       label = "30-90 Days"
     }
 
     card {
-      query = query.turbot_control_invalid_between_90_365_days
+      query = query.guardrails_control_invalid_between_90_365_days
       width = 2
       type  = "alert"
       label = "90-365 Days"
     }
 
     card {
-      query = query.turbot_control_invalid_after_1_year
+      query = query.guardrails_control_invalid_after_1_year
       width = 2
       type  = "alert"
       label = "> 1 Year"
@@ -52,7 +52,7 @@ dashboard "turbot_control_invalid_report_age" {
 
     table {
       title = "Controls"
-      query = query.turbot_control_invalid_oldest
+      query = query.guardrails_control_invalid_oldest
 
       column "id" {
         display = "none"
@@ -73,26 +73,26 @@ dashboard "turbot_control_invalid_report_age" {
 }
 
 
-query "turbot_control_invalid_total_count" {
+query "guardrails_control_invalid_total_count" {
   sql = <<-EOQ
     select
       count(*) as value,
       'Count' as label 
     from
-      turbot_control 
+      guardrails_control 
     where
       state = 'invalid';
   EOQ
 }
 
-query "turbot_control_invalid_24_hours_count" {
+query "guardrails_control_invalid_24_hours_count" {
   sql = <<-EOQ
     with less_than_24_hours_invalid_changed as 
     (
       select
         now()::date - update_timestamp::date as days 
       from
-        turbot_control 
+        guardrails_control 
       where
         update_timestamp > now() - '1 days' :: interval 
         and state = 'invalid' 
@@ -105,14 +105,14 @@ query "turbot_control_invalid_24_hours_count" {
   EOQ
 }
 
-query "turbot_control_invalid_between_1_30_days" {
+query "guardrails_control_invalid_between_1_30_days" {
   sql = <<-EOQ
     with between_1_30_days as 
     (
       select
         now()::date - update_timestamp::date as days 
       from
-        turbot_control 
+        guardrails_control 
       where
         update_timestamp between symmetric now() - '1 days' :: interval and now() - '30 days' :: interval 
         and state = 'invalid' 
@@ -125,14 +125,14 @@ query "turbot_control_invalid_between_1_30_days" {
   EOQ
 }
 
-query "turbot_control_invalid_between_30_90_days" {
+query "guardrails_control_invalid_between_30_90_days" {
   sql = <<-EOQ
     with between_30_90_days as 
     (
       select
         now()::date - update_timestamp::date as days 
       from
-        turbot_control 
+        guardrails_control 
       where
         update_timestamp between symmetric now() - '30 days' :: interval and now() - '90 days' :: interval 
         and state = 'invalid' 
@@ -145,14 +145,14 @@ query "turbot_control_invalid_between_30_90_days" {
   EOQ
 }
 
-query "turbot_control_invalid_between_90_365_days" {
+query "guardrails_control_invalid_between_90_365_days" {
   sql = <<-EOQ
     with between_90_365_days as 
     (
       select
         now()::date - update_timestamp::date as days 
       from
-        turbot_control 
+        guardrails_control 
       where
         update_timestamp between symmetric (now() - '90 days'::interval) and 
         (
@@ -168,14 +168,14 @@ query "turbot_control_invalid_between_90_365_days" {
   EOQ
 }
 
-query "turbot_control_invalid_after_1_year" {
+query "guardrails_control_invalid_after_1_year" {
   sql = <<-EOQ
     with after_1_year as 
     (
       select
         now()::date - update_timestamp::date as days 
       from
-        turbot_control 
+        guardrails_control 
       where
         update_timestamp <= now() - '1 year' :: interval 
         and state = 'invalid' 
@@ -188,7 +188,7 @@ query "turbot_control_invalid_after_1_year" {
   EOQ
 }
 
-query "turbot_control_invalid_oldest" {
+query "guardrails_control_invalid_oldest" {
   sql = <<-EOQ
     select
       id,
@@ -198,7 +198,7 @@ query "turbot_control_invalid_oldest" {
       now()::date - update_timestamp::date as "Age in Days",
       _ctx ->> 'connection_name' as "Connection Name" 
     from
-      turbot_control 
+      guardrails_control 
     where
       state = 'invalid' 
     order by

@@ -1,5 +1,5 @@
 dashboard "workspace_report" {
-  title         = "Turbot Workspace Report"
+  title         = "Guardrails Workspace Report"
   documentation = file("./dashboards/workspace/docs/workspace_report.md")
   tags = merge(local.workspace_common_tags, {
     type     = "Report"
@@ -9,7 +9,7 @@ dashboard "workspace_report" {
   # Analysis
   container {
     text {
-      value = "The workspace report gives a detailed analysis of all connected Turbot Workspace(s) along with their Turbot Enterprise(TE) Version."
+      value = "The workspace report gives a detailed analysis of all connected Guardrails Workspace(s) along with their Turbot Guardrails Enterprise(TE) Version."
     }
 
     card {
@@ -34,9 +34,9 @@ query "workspace_version" {
       workspace as "Workspace URL",
       value as "TE Version",
       _ctx ->> 'connection_name' as "Connection Name",
-      resource_id as "Turbot ID" 
+      resource_id as "Resource ID" 
     from
-      turbot_policy_setting 
+      guardrails_policy_setting 
     where
       policy_type_uri = 'tmod:@turbot/turbot#/policy/types/workspaceVersion' 
     order by

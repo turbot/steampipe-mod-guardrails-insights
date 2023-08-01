@@ -1,5 +1,5 @@
 locals {
   workspace_common_tags = {
-    service = "Turbot/Workspace"
+    service = "Guardrails/Workspace"
   }
 }

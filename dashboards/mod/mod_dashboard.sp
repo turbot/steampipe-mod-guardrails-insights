@@ -1,5 +1,5 @@
 dashboard "mod_dashboard" {
-  title         = "Turbot Mods Dashboard"
+  title         = "Guardrails Mods Dashboard"
   documentation = file("./dashboards/mod/docs/mod_dashboard.md")
   tags = merge(local.mod_common_tags, {
     type     = "Dashboard"
@@ -70,7 +70,7 @@ dashboard "mod_dashboard" {
             end
             as "Mod Platform", count(title) 
           from
-            turbot_resource 
+            guardrails_resource 
           where
             resource_type_uri = 'tmod:@turbot/turbot#/resource/types/mod' 
           group by
@@ -129,7 +129,7 @@ query "installed_mods_by_platform" {
       end
       as "Mod_Platform", count(title) 
     from
-      turbot_resource 
+      guardrails_resource 
     where
       resource_type_uri = 'tmod:@turbot/turbot#/resource/types/mod' 
     group by
@@ -143,7 +143,7 @@ query "installed_aws_mods_count" {
     select
       count(*) as "AWS Installed Mods" 
     from
-      turbot_resource 
+      guardrails_resource 
     where
       filter = 'resourceTypeId:"tmod:@turbot/turbot#/resource/types/mod" level:self' 
       and substring(title 
@@ -158,7 +158,7 @@ query "installed_azure_mods_count" {
     select
       count(*) as "Azure Installed Mods" 
     from
-      turbot_resource 
+      guardrails_resource 
     where
       filter = 'resourceTypeId:"tmod:@turbot/turbot#/resource/types/mod" level:self' 
       and substring(title 
@@ -173,7 +173,7 @@ query "installed_gcp_mods_count" {
     select
       count(*) as "GCP Installed Mods" 
     from
-      turbot_resource 
+      guardrails_resource 
     where
       filter = 'resourceTypeId:"tmod:@turbot/turbot#/resource/types/mod" level:self' 
       and substring(title 
@@ -189,7 +189,7 @@ query "mod_auto_update" {
       Update
         Enabled" 
       from
-        turbot_policy_setting 
+        guardrails_policy_setting 
       where
         filter = 'policyTypeId:"tmod:@turbot/turbot#/policy/types/modAutoUpdate" level:self';
 EOQ

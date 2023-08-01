@@ -1,5 +1,5 @@
 dashboard "mod_mod_installed_errors_report" {
-  title = "Turbot Mod Installed Errors Report"
+  title = "Guardrails Mod Installed Errors Report"
   tags = merge(local.mod_common_tags, {
     type     = "Report"
     category = "Installation Errors"
@@ -45,7 +45,7 @@ query "mod_installed_controls_error" {
       'Mod Installed Errors' as label,
       case when count(*) = 0 then 'ok' else 'alert' end as "type"
     from
-      turbot_control 
+      guardrails_control 
     where
       filter = 'state:error controlTypeId:"tmod:@turbot/turbot#/control/types/modInstalled" level:self';
 EOQ
@@ -67,7 +67,7 @@ query "mod_installed_controls_error_list" {
         'https://([a-z]+)(.)') as "Workspace",
         workspace as "Workspace URL" 
       from
-        turbot_control 
+        guardrails_control 
       where
         filter = 'state:error controlTypeId:"tmod:@turbot/turbot#/control/types/modInstalled" level:self' 
     )
@@ -78,7 +78,7 @@ query "mod_installed_controls_error_list" {
         substr(title, 9) as mod_name,
         id as resource_id 
       from
-        turbot_resource 
+        guardrails_resource 
       where
         filter = 'resourceTypeId:"tmod:@turbot/turbot#/resource/types/mod" level:self' 
     )

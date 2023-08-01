@@ -1,5 +1,5 @@
 dashboard "workspace_account_report" {
-  title         = "Turbot Account Report"
+  title         = "Guardrails Account Report"
   documentation = file("./dashboards/workspace/docs/workspace_account_report.md")
   tags = merge(local.workspace_common_tags, {
     type     = "Report"
@@ -9,7 +9,7 @@ dashboard "workspace_account_report" {
   # Analysis
   container {
     text {
-      value = "List of accounts across workspaces. Click on the resource to navigate to the respective Turbot Console."
+      value = "List of accounts across workspaces. Click on the resource to navigate to the respective Guardrails Console."
     }
 
     card {
@@ -57,7 +57,7 @@ query "workspace_aws_count" {
     select
       count(resource_type_uri) as "AWS" 
     from
-      turbot_resource 
+      guardrails_resource 
     where
       resource_type_uri = 'tmod:@turbot/aws#/resource/types/account';
   EOQ
@@ -68,7 +68,7 @@ query "workspace_azure_count" {
     select
       count(resource_type_uri) as "Azure" 
     from
-      turbot_resource 
+      guardrails_resource 
     where
       resource_type_uri = 'tmod:@turbot/azure#/resource/types/subscription';
   EOQ
@@ -79,7 +79,7 @@ query "workspace_gcp_count" {
     select
       count(resource_type_uri) as "GCP" 
     from
-      turbot_resource 
+      guardrails_resource 
     where
       resource_type_uri = 'tmod:@turbot/gcp#/resource/types/project';
   EOQ
@@ -104,7 +104,7 @@ query "workspace_account_detail" {
       end as "Provider",
       _ctx ->> 'connection_name' as "Connection Name"
     from
-      turbot_resource
+      guardrails_resource
     where
       resource_type_uri in (
         'tmod:@turbot/aws#/resource/types/account',
