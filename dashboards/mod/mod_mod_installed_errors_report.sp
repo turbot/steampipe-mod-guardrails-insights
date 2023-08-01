@@ -1,5 +1,5 @@
 dashboard "mod_mod_installed_errors_report" {
-  title = "Mod Installed Errors Report"
+  title = "Turbot Mod Installed Errors Report"
   tags = merge(local.mod_common_tags, {
     type     = "Report"
     category = "Installation Errors"
@@ -41,7 +41,9 @@ query "mod_installed_controls_error" {
   title = "Mod Installed Controls Errors"
   sql   = <<-EOQ
     select
-      count(*) as "Mod Installed Errors" 
+      case when count(*) > 0 then count(*) else '0' end as value,
+      'Mod Installed Errors' as label,
+      case when count(*) = 0 then 'ok' else 'alert' end as "type"
     from
       turbot_control 
     where

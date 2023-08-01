@@ -1,5 +1,5 @@
 dashboard "mod_dashboard" {
-  title         = "Mods Dashboard"
+  title         = "Turbot Mods Dashboard"
   documentation = file("./dashboards/mod/docs/mod_dashboard.md")
   tags = merge(local.mod_common_tags, {
     type     = "Dashboard"
@@ -66,11 +66,7 @@ dashboard "mod_dashboard" {
               when
                 title like '@turbot/gcp%' 
               then
-                'GCP' 
-              when
-                title like '@turbot/turbot%' 
-              then
-                'Turbot' 
+                'GCP'
             end
             as "Mod Platform", count(title) 
           from
@@ -129,10 +125,6 @@ query "installed_mods_by_platform" {
           title like '@turbot/gcp%' 
         then
           'GCP' 
-        when
-          title like '@turbot/turbot%' 
-        then
-          'Turbot'
         else 'Others' 
       end
       as "Mod_Platform", count(title) 

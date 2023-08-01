@@ -1,5 +1,5 @@
 dashboard "workspace_account_report" {
-  title         = "Account Report"
+  title         = "Turbot Account Report"
   documentation = file("./dashboards/workspace/docs/workspace_account_report.md")
   tags = merge(local.workspace_common_tags, {
     type     = "Report"
@@ -9,7 +9,7 @@ dashboard "workspace_account_report" {
   # Analysis
   container {
     text {
-      value = "List of accounts across workspaces. Click on the resource to nagivate to the respective Turbot Console."
+      value = "List of accounts across workspaces. Click on the resource to navigate to the respective Turbot Console."
     }
 
     card {
@@ -91,28 +91,28 @@ query "workspace_account_detail" {
       id,
       workspace,
       case
-        when
-          resource_type_uri = 'tmod:@turbot/aws#/resource/types/account' 
-        then
-          data ->> 'Id' 
-        when
-          resource_type_uri = 'tmod:@turbot/azure#/resource/types/subscription' 
-        then
-          data ->> 'subscriptionId' 
-        when
-          resource_type_uri = 'tmod:@turbot/gcp#/resource/types/project' 
-        then
-          data ->> 'projectId' 
-      end
-      as "Account ID", trunk_title as "Trunk Title", _ctx ->> 'connection_name' as "Connection Name" 
+        when resource_type_uri = 'tmod:@turbot/aws#/resource/types/account' then data ->> 'Id'
+        when resource_type_uri = 'tmod:@turbot/azure#/resource/types/subscription' then data ->> 'subscriptionId'
+        when resource_type_uri = 'tmod:@turbot/gcp#/resource/types/project' then data ->> 'projectId'
+      end as "Account ID",
+      trunk_title as "Trunk Title",
+      case
+        when resource_type_uri = 'tmod:@turbot/aws#/resource/types/account' then 'AWS'
+        when resource_type_uri = 'tmod:@turbot/azure#/resource/types/subscription' then 'Azure'
+        when resource_type_uri = 'tmod:@turbot/gcp#/resource/types/project' then 'GCP'
+        else 'Unknown'
+      end as "Provider",
+      _ctx ->> 'connection_name' as "Connection Name"
     from
-      turbot_resource 
+      turbot_resource
     where
-      resource_type_uri in 
-      (
-        'tmod:@turbot/aws#/resource/types/account', 'tmod:@turbot/azure#/resource/types/subscription', 'tmod:@turbot/gcp#/resource/types/project' 
+      resource_type_uri in (
+        'tmod:@turbot/aws#/resource/types/account',
+        'tmod:@turbot/azure#/resource/types/subscription',
+        'tmod:@turbot/gcp#/resource/types/project'
       )
     order by
-      workspace, trunk_title;
+      workspace,
+      trunk_title;
   EOQ
 }
