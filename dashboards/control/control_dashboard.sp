@@ -1,5 +1,5 @@
 dashboard "control_dashboard" {
-  title         = "Guardrails Controls Dashboard"
+  title         = "Turbot Guardrails Controls Dashboard"
   documentation = file("./dashboards/control/docs/control_dashboard.md")
   tags = merge(local.control_common_tags, {
     type     = "Dashboard"

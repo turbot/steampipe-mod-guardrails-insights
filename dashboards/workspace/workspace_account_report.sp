@@ -1,5 +1,5 @@
 dashboard "workspace_account_report" {
-  title         = "Guardrails Account Report"
+  title         = "Turbot Guardrails Account Report"
   documentation = file("./dashboards/workspace/docs/workspace_account_report.md")
   tags = merge(local.workspace_common_tags, {
     type     = "Report"
@@ -9,7 +9,7 @@ dashboard "workspace_account_report" {
   # Analysis
   container {
     text {
-      value = "List of accounts across workspaces. Click on the resource to navigate to the respective Guardrails Console."
+      value = "List of accounts across workspaces. Click on the resource to navigate to the respective Turbot Guardrails Console."
     }
 
     card {

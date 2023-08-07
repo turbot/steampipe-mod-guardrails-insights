@@ -1,5 +1,5 @@
 dashboard "control_alarm_report_age" {
-  title         = "Guardrails Controls Alarm Age Report"
+  title         = " Turbot Guardrails Controls Alarm Age Report"
   documentation = file("./dashboards/control/docs/control_alarm_report_age.md")
   tags = merge(local.control_common_tags, {
     type     = "Report"

@@ -24,7 +24,7 @@ Dashboards can help answer questions like:
 
 ## References
 
-[Turbot Guardrails](https://turbot.com/guardrails) is a full-stack governance platform that automates discovery and remediation of your organization’s compliance, security, and operational objectives.
+[Turbot Guardrails](https://turbot.com/guardrails) is the leading platform for policy-based control and automatic remediation of enterprise clouds.
 
 [Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
 
@@ -66,7 +66,7 @@ Start your dashboard server to get started:
 steampipe dashboard
 ```
 
-By default, the dashboard interface will then be launched in a new browser window at https://localhost:9194. From here, you can view dashboards and reports.
+By default, the dashboard interface will then be launched in a new browser window at http://localhost:9194. From here, you can view dashboards and reports.
 
 ### Credentials
 
@@ -80,7 +80,7 @@ No extra configuration is required.
 
 If you have an idea for additional dashboards or reports, or just want to help maintain and extend this mod ([or others](https://github.com/topics/steampipe-mod)) we would love you to join the community and start contributing.
 
-- **[Join our Slack community →](https://steampipe.io/community/join)** and hang out with other Mod developers.
+- **[Join #steampipe on Slack →](https://turbot.com/community/join)** and hang out with other Mod developers.
 
 Please see the [contribution guidelines](https://github.com/turbot/steampipe/blob/main/CONTRIBUTING.md) and our [code of conduct](https://github.com/turbot/steampipe/blob/main/CODE_OF_CONDUCT.md). All contributions are subject to the [Apache 2.0 open source license](https://github.com/turbot/steampipe-mod-guardrails-insights/blob/main/LICENSE).
 

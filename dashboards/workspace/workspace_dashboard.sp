@@ -1,5 +1,5 @@
 dashboard "workspace_dashboard" {
-  title         = "Guardrails Workspace Dashboard"
+  title         = "Turbot Guardrails Workspace Dashboard"
   documentation = file("./dashboards/workspace/docs/workspace_dashboard.md")
   tags = merge(local.workspace_common_tags, {
     type     = "Dashboard"
@@ -40,7 +40,7 @@ dashboard "workspace_dashboard" {
       axes {
         x {
           title {
-            value = "Guardrails Workspace"
+            value = "Turbot Guardrails Workspace"
           }
           labels {
             display = "auto"

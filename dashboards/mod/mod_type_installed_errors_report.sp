@@ -1,5 +1,5 @@
 dashboard "mod_type_installed_errors_report" {
-  title = "Guardrails Type Installed Errors Report"
+  title = "Turbot Guardrails Type Installed Errors Report"
   tags = merge(local.mod_common_tags, {
     type     = "Report"
     category = "Installation Errors"

@@ -1,5 +1,5 @@
 dashboard "mod_mod_installed_errors_report" {
-  title = "Guardrails Mod Installed Errors Report"
+  title = "Turbot Guardrails Mod Installed Errors Report"
   tags = merge(local.mod_common_tags, {
     type     = "Report"
     category = "Installation Errors"
@@ -37,6 +37,7 @@ dashboard "mod_mod_installed_errors_report" {
 
   }
 }
+
 query "mod_installed_controls_error" {
   title = "Mod Installed Controls Errors"
   sql   = <<-EOQ
