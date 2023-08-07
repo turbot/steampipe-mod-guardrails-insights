@@ -1,5 +1,5 @@
 dashboard "workspace_dashboard" {
-  title         = "Turbot Workspace Dashboard"
+  title         = "Turbot Guardrails Workspace Dashboard"
   documentation = file("./dashboards/workspace/docs/workspace_dashboard.md")
   tags = merge(local.workspace_common_tags, {
     type     = "Dashboard"
@@ -40,7 +40,7 @@ dashboard "workspace_dashboard" {
       axes {
         x {
           title {
-            value = "Turbot Workspace"
+            value = "Turbot Guardrails Workspace"
           }
           labels {
             display = "auto"
@@ -75,7 +75,7 @@ dashboard "workspace_dashboard" {
           end
           as "Account Type", count(resource_type_uri) 
         from
-          turbot_resource 
+          guardrails_resource 
         where
           resource_type_uri in 
           (
@@ -130,7 +130,7 @@ dashboard "workspace_dashboard" {
           end
           as "Account Type", count(resource_type_uri) 
         from
-          turbot_resource 
+          guardrails_resource 
         where
           resource_type_uri in 
           (
@@ -149,7 +149,7 @@ query "workspace_count" {
     select
       count(workspace) as "Workspaces" 
     from
-      turbot_resource 
+      guardrails_resource 
     where
       resource_type_uri = 'tmod:@turbot/turbot#/resource/types/turbot';
   EOQ
@@ -160,7 +160,7 @@ query "workspace_account_count" {
     select
       count(id) as "Accounts" 
     from
-      turbot_resource 
+      guardrails_resource 
     where
       resource_type_uri in 
       (

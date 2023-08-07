@@ -1,5 +1,5 @@
 dashboard "mod_type_installed_errors_report" {
-  title = "Turbot Type Installed Errors Report"
+  title = "Turbot Guardrails Type Installed Errors Report"
   tags = merge(local.mod_common_tags, {
     type     = "Report"
     category = "Installation Errors"
@@ -38,7 +38,7 @@ query "type_installed_controls_error" {
       'Type Installed Errors' as label,
       case when count(*) = 0 then 'ok' else 'alert' end as "type"
     from
-      turbot_control 
+      guardrails_control 
     where
       filter = 'state:error controlTypeId:"tmod:@turbot/turbot#/control/types/controlInstalled" level:self';
 EOQ
@@ -54,7 +54,7 @@ query "type_installed_controls_error_list" {
       reason as "Reason",
       _ctx ->> 'connection_name' as "Connection Name" 
     from
-      turbot_control 
+      guardrails_control 
     where
       control_type_uri = 'tmod:@turbot/turbot#/control/types/controlInstalled' 
       and state = 'error' 
