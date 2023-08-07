@@ -1,15 +1,15 @@
 mod "guardrails_insights" {
   # hub metadata
-  title         = "Guardrails Insights"
-  description   = "Create dashboards and reports for your Guardrails resources using Steampipe."
-  color         = "#FF9900"
+  title         = "Turbot Guardrails Insights"
+  description   = "Create dashboards and reports for your Turbot Guardrails resources using Steampipe."
+  color         = "#FCC119"
   documentation = file("./docs/index.md")
   icon          = "/images/mods/turbot/guardrails-insights.svg"
   categories    = ["guardrails", "dashboard", "security"]
 
   opengraph {
-    title       = "Steampipe Mod for Guardrails Insights"
-    description = "Create dashboards and reports for your Guardrails resources using Steampipe."
+    title       = "Steampipe Mod for Turbot Guardrails Insights"
+    description = "Create dashboards and reports for your Turbot Guardrails resources using Steampipe."
     image       = "/images/mod/turbot/guardrails-insights-social-graphic.png"
   }
 
