@@ -10,21 +10,21 @@ dashboard "control_dashboard" {
 
     card {
       sql   = query.guardrails_control_alarm_count.sql
-      width = 2
+      width = 3
       type  = "alert"
       href  = dashboard.control_alarm_report_age.url_path
     }
 
     card {
       sql   = query.guardrails_control_error_count.sql
-      width = 2
+      width = 3
       type  = "alert"
       href  = dashboard.control_error_report_age.url_path
     }
 
     card {
       sql   = query.guardrails_control_invalid_count.sql
-      width = 2
+      width = 3
       type  = "alert"
       href  = dashboard.control_invalid_report_age.url_path
     }
@@ -41,11 +41,11 @@ dashboard "control_dashboard" {
             _ctx ->> 'connection_name' as "Connection Name",
             count(state) as "Count"
           from
-            guardrails_control 
+            guardrails_control
           where
-            state = 'alarm' 
+            state = 'alarm'
           group by
-            _ctx 
+            _ctx
           order by
             "Count" desc;
         EOQ
@@ -58,13 +58,13 @@ dashboard "control_dashboard" {
         sql   = <<-EOQ
           select
             _ctx ->> 'connection_name' as "Connection Name",
-            count(state) as "Count" 
+            count(state) as "Count"
           from
-            guardrails_control 
+            guardrails_control
           where
-            state = 'error' 
+            state = 'error'
           group by
-            _ctx 
+            _ctx
           order by
             "Count" desc;
         EOQ
@@ -77,13 +77,13 @@ dashboard "control_dashboard" {
         sql   = <<-EOQ
           select
             _ctx ->> 'connection_name' as "Connection Name",
-            count(state) as "Count" 
+            count(state) as "Count"
           from
-            guardrails_control 
+            guardrails_control
           where
-            state = 'invalid' 
+            state = 'invalid'
           group by
-            _ctx 
+            _ctx
           order by
             "Count" desc;
         EOQ
@@ -104,7 +104,7 @@ query "guardrails_control_error_count" {
       'Error' as label,
       case when count(*) = 0 then 'ok' else 'alert' end as "type"
     from
-      guardrails_control 
+      guardrails_control
     where
       state = 'error';
   EOQ
@@ -117,7 +117,7 @@ query "guardrails_control_alarm_count" {
       'Alarm' as label,
       case when count(*) = 0 then 'ok' else 'alert' end as "type"
     from
-      guardrails_control 
+      guardrails_control
     where
       state = 'alarm';
   EOQ
@@ -130,7 +130,7 @@ query "guardrails_control_invalid_count" {
       'Invalid' as label,
       case when count(*) = 0 then 'ok' else 'alert' end as "type"
     from
-      guardrails_control 
+      guardrails_control
     where
       state = 'invalid';
   EOQ
@@ -140,19 +140,19 @@ query "guardrails_control_top_20_alerts" {
   sql = <<-EOQ
     select
       control_type_trunk_title as "Control Type Trunk Title", control_type_uri as "Control Type URI",
-      count(control_type_uri) as "Count" 
+      count(control_type_uri) as "Count"
     from
-      guardrails_control 
+      guardrails_control
     where
-      state in 
+      state in
       (
         'alarm',
         'error',
         'invalid'
       )
     group by
-      control_type_uri, control_type_trunk_title 
+      control_type_uri, control_type_trunk_title
     order by
-      "Count" desc limit 20
+      "Count" desc limit 20;
   EOQ
 }

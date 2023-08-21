@@ -10,17 +10,17 @@ dashboard "mod_mod_installed_errors_report" {
     }
     card {
       sql   = query.mod_installed_controls_error.sql
-      width = 2
+      width = 3
     }
   }
   container {
     table {
       title = "Mods in Error"
       query = query.mod_installed_controls_error_list
-      #      width = 6
+      width = 6
       column "Mod Name" {
         href = <<-EOT
-{{ ."Workspace URL" }}/apollo/controls/{{.'control_id' | @uri}}
+          {{ ."Workspace URL" }}/apollo/controls/{{.'control_id' | @uri}}
         EOT
       }
       column "control_id" {
@@ -46,7 +46,7 @@ query "mod_installed_controls_error" {
       'Mod Installed Errors' as label,
       case when count(*) = 0 then 'ok' else 'alert' end as "type"
     from
-      guardrails_control 
+      guardrails_control
     where
       filter = 'state:error controlTypeId:"tmod:@turbot/turbot#/control/types/modInstalled" level:self';
 EOQ
@@ -55,7 +55,7 @@ EOQ
 query "mod_installed_controls_error_list" {
   title = "Mod Installed Controls Errors List"
   sql   = <<-EOQ
-    with controls_list as 
+    with controls_list as
     (
       select
         id as control_id,
@@ -63,25 +63,25 @@ query "mod_installed_controls_error_list" {
         reason as control_reason,
         details #>> '{0,value}' as control_details,
         resource_id as resource_id,
-        substring(workspace 
+        substring(workspace
       from
         'https://([a-z]+)(.)') as "Workspace",
-        workspace as "Workspace URL" 
+        workspace as "Workspace URL"
       from
-        guardrails_control 
+        guardrails_control
       where
-        filter = 'state:error controlTypeId:"tmod:@turbot/turbot#/control/types/modInstalled" level:self' 
+        filter = 'state:error controlTypeId:"tmod:@turbot/turbot#/control/types/modInstalled" level:self'
     )
     ,
-    mods_resources as 
+    mods_resources as
     (
       select
         substr(title, 9) as mod_name,
-        id as resource_id 
+        id as resource_id
       from
-        guardrails_resource 
+        guardrails_resource
       where
-        filter = 'resourceTypeId:"tmod:@turbot/turbot#/resource/types/mod" level:self' 
+        filter = 'resourceTypeId:"tmod:@turbot/turbot#/resource/types/mod" level:self'
     )
     select
       mr.mod_name as "Mod Name",
@@ -90,12 +90,10 @@ query "mod_installed_controls_error_list" {
       c.control_details as "Detail",
       mr.resource_id,
       c."Workspace",
-      c."Workspace URL" 
+      c."Workspace URL"
     from
-      controls_list c 
-      left join
-        mods_resources mr 
-        on c.resource_id = mr.resource_id;
+      controls_list c
+      left join mods_resources mr on c.resource_id = mr.resource_id;
 EOQ
 }
 

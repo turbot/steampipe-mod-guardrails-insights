@@ -12,13 +12,13 @@ dashboard "workspace_dashboard" {
 
     card {
       sql   = query.workspace_count.sql
-      width = 2
+      width = 3
       href  = dashboard.workspace_report.url_path
     }
 
     card {
       sql   = query.workspace_account_count.sql
-      width = 2
+      width = 3
       href  = dashboard.workspace_account_report.url_path
     }
   }
@@ -61,28 +61,28 @@ dashboard "workspace_dashboard" {
           _ctx ->> 'connection_name' as "Connection Name",
           case
             when
-              resource_type_uri = 'tmod:@turbot/aws#/resource/types/account' 
+              resource_type_uri = 'tmod:@turbot/aws#/resource/types/account'
             then
-              'AWS' 
+              'AWS'
             when
-              resource_type_uri = 'tmod:@turbot/azure#/resource/types/subscription' 
+              resource_type_uri = 'tmod:@turbot/azure#/resource/types/subscription'
             then
-              'Azure' 
+              'Azure'
             when
-              resource_type_uri = 'tmod:@turbot/gcp#/resource/types/project' 
+              resource_type_uri = 'tmod:@turbot/gcp#/resource/types/project'
             then
-              'GCP' 
+              'GCP'
           end
-          as "Account Type", count(resource_type_uri) 
+          as "Account Type", count(resource_type_uri)
         from
-          guardrails_resource 
+          guardrails_resource
         where
-          resource_type_uri in 
+          resource_type_uri in
           (
-            'tmod:@turbot/aws#/resource/types/account', 'tmod:@turbot/azure#/resource/types/subscription', 'tmod:@turbot/gcp#/resource/types/project' 
+            'tmod:@turbot/aws#/resource/types/account', 'tmod:@turbot/azure#/resource/types/subscription', 'tmod:@turbot/gcp#/resource/types/project'
           )
         group by
-          _ctx, resource_type_uri 
+          _ctx, resource_type_uri
         order by
           count(resource_type_uri) desc;
       EOQ
@@ -116,25 +116,25 @@ dashboard "workspace_dashboard" {
         select
           case
             when
-              resource_type_uri = 'tmod:@turbot/aws#/resource/types/account' 
+              resource_type_uri = 'tmod:@turbot/aws#/resource/types/account'
             then
-              'AWS' 
+              'AWS'
             when
-              resource_type_uri = 'tmod:@turbot/azure#/resource/types/subscription' 
+              resource_type_uri = 'tmod:@turbot/azure#/resource/types/subscription'
             then
-              'Azure' 
+              'Azure'
             when
-              resource_type_uri = 'tmod:@turbot/gcp#/resource/types/project' 
+              resource_type_uri = 'tmod:@turbot/gcp#/resource/types/project'
             then
-              'GCP' 
+              'GCP'
           end
-          as "Account Type", count(resource_type_uri) 
+          as "Account Type", count(resource_type_uri)
         from
-          guardrails_resource 
+          guardrails_resource
         where
-          resource_type_uri in 
+          resource_type_uri in
           (
-            'tmod:@turbot/aws#/resource/types/account', 'tmod:@turbot/azure#/resource/types/subscription', 'tmod:@turbot/gcp#/resource/types/project' 
+            'tmod:@turbot/aws#/resource/types/account', 'tmod:@turbot/azure#/resource/types/subscription', 'tmod:@turbot/gcp#/resource/types/project'
           )
         group by
           resource_type_uri;
@@ -147,9 +147,9 @@ dashboard "workspace_dashboard" {
 query "workspace_count" {
   sql = <<-EOQ
     select
-      count(workspace) as "Workspaces" 
+      count(workspace) as "Workspaces"
     from
-      guardrails_resource 
+      guardrails_resource
     where
       resource_type_uri = 'tmod:@turbot/turbot#/resource/types/turbot';
   EOQ
@@ -158,16 +158,15 @@ query "workspace_count" {
 query "workspace_account_count" {
   sql = <<-EOQ
     select
-      count(id) as "Accounts" 
+      count(id) as "Accounts"
     from
-      guardrails_resource 
+      guardrails_resource
     where
-      resource_type_uri in 
+      resource_type_uri in
       (
         'tmod:@turbot/aws#/resource/types/account',
         'tmod:@turbot/azure#/resource/types/subscription',
-        'tmod:@turbot/gcp#/resource/types/project' 
-      )
-    ;
+        'tmod:@turbot/gcp#/resource/types/project'
+      );
   EOQ
 }

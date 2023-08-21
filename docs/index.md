@@ -70,7 +70,7 @@ By default, the dashboard interface will then be launched in a new browser windo
 
 ### Credentials
 
-This mod uses the credentials configured in the [Steampipe GUardrails plugin](https://hub.steampipe.io/plugins/turbot/guardrails).
+This mod uses the credentials configured in the [Steampipe Turbot Guardrails plugin](https://hub.steampipe.io/plugins/turbot/guardrails).
 
 ### Configuration
 
