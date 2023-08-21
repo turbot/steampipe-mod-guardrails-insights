@@ -78,7 +78,7 @@ No extra configuration is required.
 
 ## Contributing
 
-If you have an idea for additional dashboards or reports, or just want to help maintain and extend this mod ([or others](https://github.com/topics/steampipe-mod)) we would love you to join the community and start contributing.
+If you have an idea for additional dashboards or just want to help maintain and extend this mod ([or others](https://github.com/topics/steampipe-mod)) we would love you to join the community and start contributing.
 
 - **[Join #steampipe on Slack →](https://turbot.com/community/join)** and hang out with other Mod developers.
 
