@@ -1,19 +1,24 @@
 dashboard "mod_dashboard" {
-  title         = "Turbot Guardrails Mods Dashboard"
+
+  title         = "Turbot Guardrails Mod Dashboard"
   documentation = file("./dashboards/mod/docs/mod_dashboard.md")
+
   tags = merge(local.mod_common_tags, {
     type     = "Dashboard"
     category = "Summary"
   })
 
   container {
+
     title = "Mods Summary"
+
     card {
       width = 3
       sql   = query.mod_installed_controls_error.sql
       type  = "alert"
       href  = dashboard.mod_mod_installed_errors_report.url_path
     }
+    
     card {
       width = 3
       sql   = query.type_installed_controls_error.sql

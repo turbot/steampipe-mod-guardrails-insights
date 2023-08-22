@@ -1,19 +1,27 @@
 dashboard "mod_mod_installed_errors_report" {
+
   title = "Turbot Guardrails Mod Installed Errors Report"
+  documentation = file("./dashboards/mod/docs/mod_mod_installed_errors_report.md")
+
   tags = merge(local.mod_common_tags, {
     type     = "Report"
     category = "Installation Errors"
   })
+
   container {
+
     text {
       value = "These mods have some problem that prevents them from installing or updating properly. These should be resolved as soon as possible."
     }
+
     card {
       sql   = query.mod_installed_controls_error.sql
       width = 3
     }
   }
+
   container {
+    
     table {
       title = "Mods in Error"
       query = query.mod_installed_controls_error_list

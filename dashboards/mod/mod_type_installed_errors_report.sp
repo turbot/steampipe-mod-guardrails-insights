@@ -1,20 +1,27 @@
 dashboard "mod_type_installed_errors_report" {
+
   title = "Turbot Guardrails Type Installed Errors Report"
+  documentation = file("./dashboards/mod/docs/mod_type_installed_errors_report.md")
+
   tags = merge(local.mod_common_tags, {
     type     = "Report"
     category = "Installation Errors"
   })
+
   container {
     text {
       value = "These types have some problem that prevents them from installing or updating properly. These should be resolved as soon as possible."
     }
+
     card {
       title = "Number of Type Installed Errors"
       sql   = query.type_installed_controls_error.sql
       width = 3
     }
   }
+
   container {
+    
     table {
       title = "Types in Error"
       query = query.type_installed_controls_error_list

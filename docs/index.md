@@ -7,7 +7,7 @@ repository: "https://github.com/turbot/steampipe-mod-guardrails-insights"
 Create dashboards and reports for your Guardrails resources using Steampipe.
 
 <img src="https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/main/docs/images/guardrails_workspace_dashboard.png" width="50%" type="thumbnail"/>
-<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/main/docs/images/guardrails_mods_dashboard.png" width="50%" type="thumbnail"/>
+<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/main/docs/images/guardrails_mod_dashboard.png" width="50%" type="thumbnail"/>
 <img src="https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/main/docs/images/guardrails_controls_dashboard.png" width="50%" type="thumbnail"/>
 <img src="https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/main/docs/images/guardrails_type_installed_error_report.png" width="50%" type="thumbnail"/>
 
@@ -17,7 +17,7 @@ Dashboards can help answer questions like:
 
 - How many workspaces do I have?
 - What is the TE version on each of these workspaces?
-- How many accounts(AWS, Azure, GCP) do I have across all workspaces?
+- How many accounts (AWS, Azure, GCP) do I have across all workspaces?
 - How many controls are in Alert (error, alarm, invalid) state across all workspaces?
 - How many controls have an age of x hours/days?
 - How many mods are installed across all workspaces?

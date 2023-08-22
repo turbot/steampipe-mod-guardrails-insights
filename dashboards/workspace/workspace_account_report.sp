@@ -1,6 +1,8 @@
 dashboard "workspace_account_report" {
+
   title         = "Turbot Guardrails Workspace Account Report"
   documentation = file("./dashboards/workspace/docs/workspace_account_report.md")
+  
   tags = merge(local.workspace_common_tags, {
     type     = "Report"
     category = "Summary"
