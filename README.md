@@ -59,7 +59,7 @@ No extra configuration is required.
 
 ## Contributing
 
-If you have an idea for additional dashboards or reports, or just want to help maintain and extend this mod ([or others](https://github.com/topics/steampipe-mod)) we would love you to join the community and start contributing.
+If you have an idea for additional dashboards or just want to help maintain and extend this mod ([or others](https://github.com/topics/steampipe-mod)) we would love you to join the community and start contributing.
 
 - **[Join #steampipe on Slack →](https://turbot.com/community/join)** and hang out with other Mod developers.
 
@@ -67,5 +67,5 @@ Please see the [contribution guidelines](https://github.com/turbot/steampipe/blo
 
 Want to help but not sure where to start? Pick up one of the `help wanted` issues:
 
-- [Guardrails Insights Mod](https://github.com/turbot/steampipe-mod-guardrails-insights/labels/help%20wanted)
 - [Steampipe](https://github.com/turbot/steampipe/labels/help%20wanted)
+- [Guardrails Insights Mod](https://github.com/turbot/steampipe-mod-guardrails-insights/labels/help%20wanted)

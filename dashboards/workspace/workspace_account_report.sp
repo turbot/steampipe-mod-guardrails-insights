@@ -1,5 +1,5 @@
 dashboard "workspace_account_report" {
-  title         = "Turbot Guardrails Account Report"
+  title         = "Turbot Guardrails Workspace Account Report"
   documentation = file("./dashboards/workspace/docs/workspace_account_report.md")
   tags = merge(local.workspace_common_tags, {
     type     = "Report"
@@ -14,22 +14,22 @@ dashboard "workspace_account_report" {
 
     card {
       sql   = query.workspace_account_count.sql
-      width = 2
+      width = 3
     }
 
     card {
       sql   = query.workspace_aws_count.sql
-      width = 2
+      width = 3
     }
 
     card {
       sql   = query.workspace_azure_count.sql
-      width = 2
+      width = 3
     }
 
     card {
       sql   = query.workspace_gcp_count.sql
-      width = 2
+      width = 3
     }
 
     table {
@@ -43,7 +43,7 @@ dashboard "workspace_account_report" {
 
       column "Account ID" {
         href = <<-EOT
-{{ .'workspace' }}/apollo/resources/{{.'id' | @uri}}/detail
+          {{ .'workspace' }}/apollo/resources/{{.'id' | @uri}}/detail
         EOT
       }
       sql = query.workspace_account_detail.sql
@@ -55,9 +55,9 @@ dashboard "workspace_account_report" {
 query "workspace_aws_count" {
   sql = <<-EOQ
     select
-      count(resource_type_uri) as "AWS" 
+      count(resource_type_uri) as "AWS"
     from
-      guardrails_resource 
+      guardrails_resource
     where
       resource_type_uri = 'tmod:@turbot/aws#/resource/types/account';
   EOQ
@@ -66,9 +66,9 @@ query "workspace_aws_count" {
 query "workspace_azure_count" {
   sql = <<-EOQ
     select
-      count(resource_type_uri) as "Azure" 
+      count(resource_type_uri) as "Azure"
     from
-      guardrails_resource 
+      guardrails_resource
     where
       resource_type_uri = 'tmod:@turbot/azure#/resource/types/subscription';
   EOQ
@@ -77,9 +77,9 @@ query "workspace_azure_count" {
 query "workspace_gcp_count" {
   sql = <<-EOQ
     select
-      count(resource_type_uri) as "GCP" 
+      count(resource_type_uri) as "GCP"
     from
-      guardrails_resource 
+      guardrails_resource
     where
       resource_type_uri = 'tmod:@turbot/gcp#/resource/types/project';
   EOQ

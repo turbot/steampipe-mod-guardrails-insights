@@ -14,7 +14,7 @@ dashboard "workspace_report" {
 
     card {
       sql   = query.workspace_count.sql
-      width = 2
+      width = 3
     }
   }
 
@@ -34,12 +34,12 @@ query "workspace_version" {
       workspace as "Workspace URL",
       value as "TE Version",
       _ctx ->> 'connection_name' as "Connection Name",
-      resource_id as "Resource ID" 
+      resource_id as "Resource ID"
     from
-      guardrails_policy_setting 
+      guardrails_policy_setting
     where
-      policy_type_uri = 'tmod:@turbot/turbot#/policy/types/workspaceVersion' 
+      policy_type_uri = 'tmod:@turbot/turbot#/policy/types/workspaceVersion'
     order by
       value;
-  EOQ 
+  EOQ
 }
