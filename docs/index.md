@@ -1,8 +1,15 @@
-# Turbot Guardrails Insights Mod for Steampipe
+---
+repository: "https://github.com/turbot/steampipe-mod-guardrails-insights"
+---
 
-A Turbot Guardrails dashboarding tool that can be used to view dashboards and reports across all of your Turbot Guardrails workspaces.
+# Turbot Guardrails Insights Mod
 
-![image](https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/release/v0.1/docs/images/guardrails_workspace_dashboard.png)
+Create dashboards and reports for your Guardrails resources using Steampipe.
+
+<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/main/docs/images/guardrails_workspace_dashboard.png" width="50%" type="thumbnail"/>
+<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/main/docs/images/guardrails_mod_dashboard.png" width="50%" type="thumbnail"/>
+<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/main/docs/images/guardrails_controls_dashboard.png" width="50%" type="thumbnail"/>
+<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/main/docs/images/guardrails_type_installed_error_report.png" width="50%" type="thumbnail"/>
 
 ## Overview
 
@@ -10,10 +17,22 @@ Dashboards can help answer questions like:
 
 - How many workspaces do I have?
 - What is the TE version on each of these workspaces?
-- How many accounts(AWS, Azure, GCP) do I have across all workspaces?
+- How many accounts (AWS, Azure, GCP) do I have across all workspaces?
 - How many controls are in Alert (error, alarm, invalid) state across all workspaces?
 - How many controls have an age of x hours/days?
 - How many mods are installed across all workspaces?
+
+## References
+
+[Turbot Guardrails](https://turbot.com/guardrails) is the leading platform for policy-based control and automatic remediation of enterprise clouds.
+
+[Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
+
+[Steampipe Mods](https://steampipe.io/docs/reference/mod-resources#mod) are collections of `named queries`, codified `controls` that can be used to test current configuration of your cloud resources against a desired configuration, and `dashboards` that organize and display key pieces of information.
+
+## Documentation
+
+- **[Dashboards →](https://hub.steampipe.io/mods/turbot/guardrails_insights/dashboards)**
 
 ## Getting started
 
@@ -26,7 +45,7 @@ brew tap turbot/tap
 brew install steampipe
 ```
 
-Install the Turbot Guardrails plugin with [Steampipe](https://steampipe.io):
+Install the Guardrails plugin with [Steampipe](https://steampipe.io):
 
 ```sh
 steampipe plugin install guardrails
