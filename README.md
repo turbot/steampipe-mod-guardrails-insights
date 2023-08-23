@@ -2,7 +2,7 @@
 
 A Turbot Guardrails dashboarding tool that can be used to view dashboards and reports across all of your Turbot Guardrails workspaces.
 
-![image](https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/release/v0.1/docs/images/guardrails_workspace_dashboard.png)
+![image](https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/main/docs/images/guardrails_workspace_dashboard.png)
 
 ## Overview
 
