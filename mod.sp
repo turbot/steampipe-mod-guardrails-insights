@@ -14,9 +14,6 @@ mod "guardrails_insights" {
   }
 
   require {
-    steampipe {
-      min_version = "0.18.0"
-    }
     plugin "guardrails" {
       min_version = "0.11.1"
     }
