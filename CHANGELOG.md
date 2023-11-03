@@ -1,3 +1,9 @@
+## v0.2 [2023-11-03]
+
+_Breaking changes_
+
+- Updated the plugin dependency section of the mod to use `min_version` instead of `version`. ([#25](https://github.com/turbot/steampipe-mod-guardrails-insights/pull/25))
+
 ## v0.1 [2023-08-23]
 
 _What's new?_
