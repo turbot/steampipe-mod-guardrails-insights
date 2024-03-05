@@ -2,14 +2,10 @@
 
 Create dashboards and reports for your Guardrails resources using Steampipe.
 
-<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/main/docs/images/guardrails_workspace_dashboard.png" width="50%" type="thumbnail"/>
-<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/main/docs/images/guardrails_mod_dashboard.png" width="50%" type="thumbnail"/>
-<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/main/docs/images/guardrails_controls_dashboard.png" width="50%" type="thumbnail"/>
-<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/main/docs/images/guardrails_type_installed_error_report.png" width="50%" type="thumbnail"/>
-
-## Documentation
-
-- **[Dashboards →](https://hub.powerpipe.io/mods/turbot/guardrails_insights/dashboards)**
+<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/add-new-checks/docs/images/guardrails_workspace_dashboard.png" width="50%" type="thumbnail"/>
+<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/add-new-checks/docs/images/guardrails_mod_dashboard.png" width="50%" type="thumbnail"/>
+<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/add-new-checks/docs/images/guardrails_controls_dashboard.png" width="50%" type="thumbnail"/>
+<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/add-new-checks/docs/images/guardrails_type_installed_error_report.png" width="50%" type="thumbnail"/>
 
 ## Overview
 
@@ -21,6 +17,11 @@ Dashboards can help answer questions like:
 - How many controls are in Alert (error, alarm, invalid) state across all workspaces?
 - How many controls have an age of x hours/days?
 - How many mods are installed across all workspaces?
+
+## Documentation
+
+- **[Dashboards →](https://hub-powerpipe-io-git-development-turbot.vercel.app/mods/turbot/guardrails_insights/dashboards)**
+
 
 ## References
 
@@ -55,7 +56,7 @@ Finally, install the mod:
 mkdir dashboards
 cd dashboards
 powerpipe mod init
-powerpipe mod install github.com/turbot/powerpipe-mod-guardrails-insights
+powerpipe mod install github.com/turbot/steampipe-mod-guardrails-insights
 ```
 
 ### Browsing Dashboards
