@@ -1,11 +1,11 @@
 # Turbot Guardrails Insights Mod
 
-Create dashboards and reports for your Guardrails resources using Steampipe.
+Create dashboards and reports for your Guardrails resources using Powerpipe.
 
-<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/add-new-checks/docs/images/guardrails_workspace_dashboard.png" width="50%" type="thumbnail"/>
-<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/add-new-checks/docs/images/guardrails_mod_dashboard.png" width="50%" type="thumbnail"/>
-<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/add-new-checks/docs/images/guardrails_controls_dashboard.png" width="50%" type="thumbnail"/>
-<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/add-new-checks/docs/images/guardrails_type_installed_error_report.png" width="50%" type="thumbnail"/>
+<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/main/docs/images/guardrails_workspace_dashboard.png" width="50%" type="thumbnail"/>
+<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/main/docs/images/guardrails_mod_dashboard.png" width="50%" type="thumbnail"/>
+<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/main/docs/images/guardrails_controls_dashboard.png" width="50%" type="thumbnail"/>
+<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/main/docs/images/guardrails_type_installed_error_report.png" width="50%" type="thumbnail"/>
 
 ## Overview
 
@@ -20,8 +20,7 @@ Dashboards can help answer questions like:
 
 ## Documentation
 
-- **[Dashboards →](https://hub-powerpipe-io-git-development-turbot.vercel.app/mods/turbot/guardrails_insights/dashboards)**
-
+- **[Dashboards →](https://hub.powerpipe.io/mods/turbot/guardrails_insights/dashboards)**
 
 ## References
 
@@ -31,7 +30,7 @@ Dashboards can help answer questions like:
 
 [Steampipe Mods](https://steampipe.io/docs/reference/mod-resources#mod) are collections of `named queries`, codified `controls` that can be used to test current configuration of your cloud resources against a desired configuration, and `dashboards` that organize and display key pieces of information.
 
-## Getting started
+## Getting Started
 
 ### Installation
 
@@ -47,8 +46,6 @@ This mod also requires [Steampipe](https://steampipe.io) with the [Guardrails pl
 brew install turbot/tap/steampipe
 steampipe plugin install guardrails
 ```
-
-This mod uses the credentials configured in the [Steampipe Guardrails plugin](https://hub.steampipe.io/plugins/turbot/guardrails#credentials).
 
 Finally, install the mod:
 

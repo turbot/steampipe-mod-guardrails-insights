@@ -5,7 +5,7 @@
 
 A Turbot Guardrails dashboarding tool that can be used to view dashboards and reports across all of your Turbot Guardrails workspaces.
 
-![image](https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/add-new-checks/docs/images/guardrails_workspace_dashboard.png)
+![image](https://raw.githubusercontent.com/turbot/steampipe-mod-guardrails-insights/main/docs/images/guardrails_workspace_dashboard.png)
 
 ## Overview
 
@@ -20,9 +20,9 @@ Dashboards can help answer questions like:
 
 ## Documentation
 
-- **[Dashboards →](https://hub-powerpipe-io-git-development-turbot.vercel.app/mods/turbot/guardrails_insights/dashboards)**
+- **[Dashboards →](https://hub.powerpipe.io/mods/turbot/guardrails_insights/dashboards)**
 
-## Getting started
+## Getting Started
 
 ### Installation
 
@@ -38,8 +38,6 @@ This mod also requires [Steampipe](https://steampipe.io) with the [Guardrails pl
 brew install turbot/tap/steampipe
 steampipe plugin install guardrails
 ```
-
-This mod uses the credentials configured in the [Steampipe Guardrails plugin](https://hub.steampipe.io/plugins/turbot/guardrails#credentials).
 
 Finally, install the mod:
 

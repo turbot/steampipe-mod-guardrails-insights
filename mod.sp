@@ -1,5 +1,5 @@
 mod "guardrails_insights" {
-  # hub metadata
+  # Hub metadata
   title         = "Turbot Guardrails Insights"
   description   = "Create dashboards and reports for your Turbot Guardrails resources using Powerpipe and Steampipe."
   color         = "#FCC119"
