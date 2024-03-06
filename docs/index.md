@@ -22,14 +22,6 @@ Dashboards can help answer questions like:
 
 - **[Dashboards →](https://hub.powerpipe.io/mods/turbot/guardrails_insights/dashboards)**
 
-## References
-
-[Turbot Guardrails](https://turbot.com/guardrails) is the leading platform for policy-based control and automatic remediation of enterprise clouds.
-
-[Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
-
-[Steampipe Mods](https://steampipe.io/docs/reference/mod-resources#mod) are collections of `named queries`, codified `controls` that can be used to test current configuration of your cloud resources against a desired configuration, and `dashboards` that organize and display key pieces of information.
-
 ## Getting Started
 
 ### Installation
