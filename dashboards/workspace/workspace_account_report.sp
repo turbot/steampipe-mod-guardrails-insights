@@ -12,14 +12,14 @@ dashboard "workspace_account_report" {
   container {
 
     card {
-      sql   = query.workspaces_count.sql
+      sql   = query.accounts_count.sql
       width = 3
-      href  = dashboard.workspace_report.url_path
     }
 
     card {
-      sql   = query.accounts_count.sql
+      sql   = query.workspaces_count.sql
       width = 3
+      href  = dashboard.workspace_report.url_path
     }
 
     table {
@@ -77,7 +77,6 @@ query "workspace_account_detail" {
   sql = <<-EOQ
   select
     accountables -> 'turbot' ->> 'id' as "id",
-    workspace as "Workspace",
       case
         when accountables -> 'type' ->> 'uri' = 'tmod:@turbot/aws#/resource/types/account' then accountables -> 'data' ->> 'Id'
         when accountables -> 'type' ->> 'uri' = 'tmod:@turbot/azure#/resource/types/subscription' then accountables -> 'data' ->> 'subscriptionId'
@@ -96,6 +95,7 @@ query "workspace_account_detail" {
         when accountables -> 'type' ->> 'uri' = 'tmod:@turbot/gcp#/resource/types/project' then 'GCP'
         when accountables -> 'type' ->> 'uri' = 'tmod:@turbot/servicenow#/resource/types/instance' then 'ServiceNow'
       end as "Provider",
+    workspace as "Workspace",
     (accountables -> 'descendants' -> 'metadata' -> 'stats' -> 'total')::int as "Resources",
     (accountables -> 'policySettings' -> 'metadata' -> 'stats' ->> 'total')::int as "Policy Settings",
     (accountables -> 'alerts' -> 'metadata' -> 'stats' ->> 'total')::int as "Alerts",
