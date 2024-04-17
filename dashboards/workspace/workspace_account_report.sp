@@ -27,10 +27,6 @@ dashboard "workspace_account_report" {
         display = "none"
       }
 
-      column "workspace" {
-        display = "none"
-      }
-
       column "External ID" {
         href = <<-EOT
           {{ .'Workspace' }}/apollo/resources/{{.'id' | @uri}}/detail
@@ -75,36 +71,85 @@ dashboard "workspace_account_report" {
 
 query "workspace_account_detail" {
   sql = <<-EOQ
-  select
-    accountables -> 'turbot' ->> 'id' as "id",
+    select
+      accountables -> 'turbot' ->> 'id' as "id",
       case
-        when accountables -> 'type' ->> 'uri' = 'tmod:@turbot/aws#/resource/types/account' then accountables -> 'data' ->> 'Id'
-        when accountables -> 'type' ->> 'uri' = 'tmod:@turbot/azure#/resource/types/subscription' then accountables -> 'data' ->> 'subscriptionId'
-        when accountables -> 'type' ->> 'uri' = 'tmod:@turbot/gcp#/resource/types/project' then accountables -> 'data' ->> 'projectId'
-        when accountables -> 'type' ->> 'uri' = 'tmod:@turbot/servicenow#/resource/types/instance' then accountables -> 'data' ->> 'instance_id'
-      end as "External ID",
+        when
+          accountables -> 'type' ->> 'uri' = 'tmod:@turbot/aws#/resource/types/account' 
+        then
+          accountables -> 'data' ->> 'Id' 
+        when
+          accountables -> 'type' ->> 'uri' = 'tmod:@turbot/azure#/resource/types/subscription' 
+        then
+          accountables -> 'data' ->> 'subscriptionId' 
+        when
+          accountables -> 'type' ->> 'uri' = 'tmod:@turbot/gcp#/resource/types/project' 
+        then
+          accountables -> 'data' ->> 'projectId' 
+        when
+          accountables -> 'type' ->> 'uri' = 'tmod:@turbot/servicenow#/resource/types/instance' 
+        then
+          accountables -> 'data' ->> 'instance_id' 
+      end
+      as "External ID", 
       case
-        when accountables -> 'type' ->> 'uri' = 'tmod:@turbot/aws#/resource/types/account' then accountables -> 'data' ->> 'AccountAlias'
-        when accountables -> 'type' ->> 'uri' = 'tmod:@turbot/azure#/resource/types/subscription' then accountables -> 'data' ->> 'displayName'
-        when accountables -> 'type' ->> 'uri' = 'tmod:@turbot/gcp#/resource/types/project' then accountables -> 'data' ->> 'name'
-        when accountables -> 'type' ->> 'uri' = 'tmod:@turbot/servicenow#/resource/types/instance' then accountables -> 'data' ->> 'instance_id'
-      end as "External Name",
+        when
+          accountables -> 'type' ->> 'uri' = 'tmod:@turbot/aws#/resource/types/account' 
+        then
+          accountables -> 'data' ->> 'AccountAlias' 
+        when
+          accountables -> 'type' ->> 'uri' = 'tmod:@turbot/azure#/resource/types/subscription' 
+        then
+          accountables -> 'data' ->> 'displayName' 
+        when
+          accountables -> 'type' ->> 'uri' = 'tmod:@turbot/gcp#/resource/types/project' 
+        then
+          accountables -> 'data' ->> 'name' 
+        when
+          accountables -> 'type' ->> 'uri' = 'tmod:@turbot/servicenow#/resource/types/instance' 
+        then
+          accountables -> 'data' ->> 'instance_id' 
+      end
+      as "Name", 
       case
-        when accountables -> 'type' ->> 'uri' = 'tmod:@turbot/aws#/resource/types/account' then 'AWS'
-        when accountables -> 'type' ->> 'uri' = 'tmod:@turbot/azure#/resource/types/subscription' then 'Azure'
-        when accountables -> 'type' ->> 'uri' = 'tmod:@turbot/gcp#/resource/types/project' then 'GCP'
-        when accountables -> 'type' ->> 'uri' = 'tmod:@turbot/servicenow#/resource/types/instance' then 'ServiceNow'
-      end as "Provider",
-    workspace as "Workspace",
-    (accountables -> 'descendants' -> 'metadata' -> 'stats' -> 'total')::int as "Resources",
-    (accountables -> 'policySettings' -> 'metadata' -> 'stats' ->> 'total')::int as "Policy Settings",
-    (accountables -> 'alerts' -> 'metadata' -> 'stats' ->> 'total')::int as "Alerts",
-    (accountables -> 'activeControls' -> 'metadata' -> 'stats' ->> 'total')::int as "Active Controls"
-  from
-    guardrails_query,
-    jsonb_array_elements(output ->  'resources' -> 'items') as accountables
-  where
-    query = '{
+        when
+          accountables -> 'type' ->> 'uri' = 'tmod:@turbot/aws#/resource/types/account' 
+        then
+          'AWS' 
+        when
+          accountables -> 'type' ->> 'uri' = 'tmod:@turbot/azure#/resource/types/subscription' 
+        then
+          'Azure' 
+        when
+          accountables -> 'type' ->> 'uri' = 'tmod:@turbot/gcp#/resource/types/project' 
+        then
+          'GCP' 
+        when
+          accountables -> 'type' ->> 'uri' = 'tmod:@turbot/servicenow#/resource/types/instance' 
+        then
+          'ServiceNow' 
+      end
+      as "Provider", workspace as "Workspace", 
+      (
+        accountables -> 'descendants' -> 'metadata' -> 'stats' -> 'total'
+      )
+      ::int as "Resources", 
+      (
+        accountables -> 'policySettings' -> 'metadata' -> 'stats' ->> 'total'
+      )
+      ::int as "Policy Settings", 
+      (
+        accountables -> 'alerts' -> 'metadata' -> 'stats' ->> 'total'
+      )
+      ::int as "Alerts", 
+      (
+        accountables -> 'activeControls' -> 'metadata' -> 'stats' ->> 'total'
+      )
+      ::int as "Active Controls" 
+    from
+      guardrails_query, jsonb_array_elements(output -> 'resources' -> 'items') as accountables 
+    where
+      query = '{
       resources(
         filter: "resourceTypeId:tmod:@turbot/turbot#/resource/interfaces/accountable level:self limit:5000"
       ) {
@@ -151,7 +196,8 @@ query "workspace_account_detail" {
           }
         }
       }
-    }'
-  order by "Workspace", "Resources" desc
+    }' 
+    order by
+      "Workspace", "Resources" desc;
   EOQ
 }
