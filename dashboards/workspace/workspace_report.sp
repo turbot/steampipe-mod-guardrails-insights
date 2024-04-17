@@ -87,9 +87,9 @@ dashboard "workspace_report" {
 query "accounts_total" {
   sql = <<-EOQ
     select
-      sum((output -> 'accounts' -> 'metadata' -> 'stats' ->> 'total')::int) as "Accounts" 
+      sum((output -> 'accounts' -> 'metadata' -> 'stats' ->> 'total')::int) as "Accounts"
     from
-      guardrails_query 
+      guardrails_query
     where
       query = '{
       accounts: resources(
@@ -108,11 +108,9 @@ query "accounts_total" {
 query "alerts_total" {
   sql = <<-EOQ
     select
-      sum((output -> 'alerts' -> 'metadata' -> 'stats' ->> 'total')::int) as "Alerts - alarm,
-      invalid,
-      error" 
+      sum((output -> 'alerts' -> 'metadata' -> 'stats' ->> 'total')::int) as "Alerts - alarm, invalid, error"
     from
-      guardrails_query 
+      guardrails_query
     where
       query = '{
       alerts: controls(filter: "state:alarm,invalid,error") {
@@ -129,9 +127,9 @@ query "alerts_total" {
 query "policy_settings_total" {
   sql = <<-EOQ
     select
-      sum((output -> 'policySettings' -> 'metadata' -> 'stats' ->> 'total')::int) as "Policy Settings" 
+      sum((output -> 'policySettings' -> 'metadata' -> 'stats' ->> 'total')::int) as "Policy Settings"
     from
-      guardrails_query 
+      guardrails_query
     where
       query = '{
       policySettings: policySettings {
@@ -149,28 +147,13 @@ query "workspace_stats" {
   sql = <<-EOQ
     select
       workspace as "Workspace",
-      (
-        output -> 'accounts' -> 'metadata' -> 'stats' ->> 'total'
-      )
-      ::int as "Accounts",
-      (
-        output -> 'resources' -> 'metadata' -> 'stats' ->> 'total'
-      )
-      ::int as "Resources",
-      (
-        output -> 'policySettings' -> 'metadata' -> 'stats' ->> 'total'
-      )
-      ::int as "Policy Settings",
-      (
-        output -> 'alerts' -> 'metadata' -> 'stats' ->> 'total'
-      )
-      ::int as "Alerts",
-      (
-        output -> 'active_controls' -> 'metadata' -> 'stats' ->> 'total'
-      )
-      ::int as "Active Controls" 
+      (output -> 'accounts' -> 'metadata' -> 'stats' ->> 'total')::int as "Accounts",
+      (output -> 'resources' -> 'metadata' -> 'stats' ->> 'total')::int as "Resources",
+      (output -> 'policySettings' -> 'metadata' -> 'stats' ->> 'total')::int as "Policy Settings",
+      (output -> 'alerts' -> 'metadata' -> 'stats' ->> 'total')::int as "Alerts",
+      (output -> 'active_controls' -> 'metadata' -> 'stats' ->> 'total')::int as "Active Controls"
     from
-      guardrails_query 
+      guardrails_query
     where
       query = '{
       accounts: resources(

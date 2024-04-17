@@ -72,9 +72,9 @@ dashboard "workspace_dashboard" {
 query "workspaces_count" {
   sql = <<-EOQ
     select
-      count(workspace) as "Workspaces" 
+      count(workspace) as "Workspaces"
     from
-      guardrails_resource 
+      guardrails_resource
     where
       resource_type_uri = 'tmod:@turbot/turbot#/resource/types/turbot';
   EOQ
@@ -83,9 +83,9 @@ query "workspaces_count" {
 query "accounts_count" {
   sql = <<-EOQ
     select
-      sum((output -> 'accounts' -> 'metadata' -> 'stats' ->> 'total')::int) as "Accounts" 
+      sum((output -> 'accounts' -> 'metadata' -> 'stats' ->> 'total')::int) as "Accounts"
     from
-      guardrails_query 
+      guardrails_query
     where
       query = '{
       accounts: resources(
@@ -104,9 +104,9 @@ query "accounts_count" {
 query "resources_count" {
   sql = <<-EOQ
     select
-      sum((output -> 'resources' -> 'metadata' -> 'stats' ->> 'total')::int) as "Resources" 
+      sum((output -> 'resources' -> 'metadata' -> 'stats' ->> 'total')::int) as "Resources"
     from
-      guardrails_query 
+      guardrails_query
     where
       query = '{
       resources: resources(
@@ -125,9 +125,9 @@ query "resources_count" {
 query "active_controls_count" {
   sql = <<-EOQ
     select
-      sum((output -> 'active_controls' -> 'metadata' -> 'stats' ->> 'total')::int) as "Active Controls" 
+      sum((output -> 'active_controls' -> 'metadata' -> 'stats' ->> 'total')::int) as "Active Controls"
     from
-      guardrails_query 
+      guardrails_query
     where
       query = '{
       active_controls: controls(
@@ -147,9 +147,9 @@ query "accounts_by_workspace" {
   sql = <<-EOQ
     select
       _ctx ->> 'connection_name' as "Connection Name",
-      sum((output -> 'accounts' -> 'metadata' -> 'stats' ->> 'total')::int) as "Accounts" 
+      sum((output -> 'accounts' -> 'metadata' -> 'stats' ->> 'total')::int) as "Accounts"
     from
-      guardrails_query 
+      guardrails_query
     where
       query = '{
       accounts: resources(
@@ -161,7 +161,7 @@ query "accounts_by_workspace" {
           }
         }
       }
-    }'   
+    }'
     group by
       _ctx ->> 'connection_name';
   EOQ
@@ -171,30 +171,18 @@ query "accounts_by_provider" {
   sql = <<-EOQ
     select
       case
-        when
-          resource_type_uri = 'tmod:@turbot/aws#/resource/types/account' 
-        then
-          'AWS' 
-        when
-          resource_type_uri = 'tmod:@turbot/azure#/resource/types/subscription' 
-        then
-          'Azure' 
-        when
-          resource_type_uri = 'tmod:@turbot/gcp#/resource/types/project' 
-        then
-          'GCP' 
-        when
-          resource_type_uri = 'tmod:@turbot/servicenow#/resource/types/instance' 
-        then
-          'ServiceNow' 
+        when resource_type_uri = 'tmod:@turbot/aws#/resource/types/account' then 'AWS'
+        when resource_type_uri = 'tmod:@turbot/azure#/resource/types/subscription' then 'Azure'
+        when resource_type_uri = 'tmod:@turbot/gcp#/resource/types/project' then 'GCP'
+        when resource_type_uri = 'tmod:@turbot/servicenow#/resource/types/instance' then 'ServiceNow'
       end
-      as "Account Type", count(resource_type_uri) 
+      as "Account Type", count(resource_type_uri)
     from
-      guardrails_resource 
+      guardrails_resource
     where
-      resource_type_uri in 
+      resource_type_uri in
       (
-        'tmod:@turbot/aws#/resource/types/account', 'tmod:@turbot/azure#/resource/types/subscription', 'tmod:@turbot/gcp#/resource/types/project', 'tmod:@turbot/servicenow#/resource/types/instance' 
+        'tmod:@turbot/aws#/resource/types/account', 'tmod:@turbot/azure#/resource/types/subscription', 'tmod:@turbot/gcp#/resource/types/project', 'tmod:@turbot/servicenow#/resource/types/instance'
       )
     group by
       resource_type_uri;
@@ -205,9 +193,9 @@ query "active_controls_by_workspace" {
   sql = <<-EOQ
     select
       _ctx ->> 'connection_name' as "Connection Name",
-      sum((output -> 'total_controls' -> 'metadata' -> 'stats' ->> 'total')::int) as "Active Controls" 
+      sum((output -> 'total_controls' -> 'metadata' -> 'stats' ->> 'total')::int) as "Active Controls"
     from
-      guardrails_query 
+      guardrails_query
     where
       query = '{
       total_controls: controls(
@@ -229,9 +217,9 @@ query "resources_by_workspace" {
   sql = <<-EOQ
     select
       _ctx ->> 'connection_name' as "Connection Name",
-      sum((output -> 'accounts' -> 'metadata' -> 'stats' ->> 'total')::int) as "Resources" 
+      sum((output -> 'accounts' -> 'metadata' -> 'stats' ->> 'total')::int) as "Resources"
     from
-      guardrails_query 
+      guardrails_query
     where
       query = '{
       accounts: resources(
