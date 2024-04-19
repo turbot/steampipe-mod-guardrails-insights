@@ -15,7 +15,7 @@ mod "guardrails_insights" {
 
   require {
     plugin "guardrails" {
-      min_version = "0.11.1"
+      min_version = "0.15.0"
     }
   }
 }

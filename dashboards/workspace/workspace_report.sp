@@ -2,7 +2,7 @@ dashboard "workspace_report" {
 
   title         = "Turbot Guardrails Workspace Report"
   documentation = file("./dashboards/workspace/docs/workspace_report.md")
-  
+
   tags = merge(local.workspace_common_tags, {
     type     = "Report"
     category = "Summary"
@@ -10,38 +10,195 @@ dashboard "workspace_report" {
 
   # Analysis
   container {
-    text {
-      value = "The workspace report gives a detailed analysis of all connected Turbot Guardrails Workspace(s) along with their Turbot Guardrails Enterprise(TE) Version."
+
+    card {
+      sql   = query.workspaces_count.sql
+      width = 2
     }
 
     card {
-      sql   = query.workspace_count.sql
-      width = 3
+      sql   = query.accounts_total.sql
+      width = 2
     }
+
+    card {
+      sql   = query.resources_count.sql
+      width = 2
+    }
+
+    card {
+      sql   = query.policy_settings_total.sql
+      width = 2
+    }
+
+    card {
+      sql   = query.alerts_total.sql
+      width = 2
+    }
+
+    card {
+      sql   = query.active_controls_count.sql
+      width = 2
+    }
+
   }
 
-  # Analysis
+  # Analysis - Workspace stats - Accounts, Resources, Controls, Alerts
   container {
     table {
       width = 12
-      sql   = query.workspace_version.sql
+
+      column "Accounts" {
+        href = <<-EOT
+          {{ .'Workspace' }}/apollo/accounts?filter=sort%3AtrunkTitle
+        EOT
+      }
+
+      column "Resources" {
+        href = <<-EOT
+          {{ .'Workspace' }}/apollo/reports/resources-by-resource-type
+        EOT
+      }
+
+      column "Policy Settings" {
+        href = <<-EOT
+          {{ .'Workspace' }}/apollo/policies/all/settings
+        EOT
+      }
+
+      column "Active Controls" {
+        href = <<-EOT
+          {{ .'Workspace' }}/apollo/reports/controls-by-resource-type?filter=state%3Aactive+%21resourceTypeId%3A%27tmod%3A%40turbot%2Fturbot%23%2Fresource%2Ftypes%2Fturbot%27
+        EOT
+      }
+
+      column "Alerts" {
+        href = <<-EOT
+          {{ .'Workspace' }}/apollo/reports/alerts-by-control-type
+        EOT
+      }
+
+      sql = query.workspace_stats.sql
     }
   }
 
 }
 
-query "workspace_version" {
+query "accounts_total" {
   sql = <<-EOQ
     select
-      workspace as "Workspace URL",
-      value as "TE Version",
-      _ctx ->> 'connection_name' as "Connection Name",
-      resource_id as "Resource ID"
+      sum((output -> 'accounts' -> 'metadata' -> 'stats' ->> 'total')::int) as "Accounts"
     from
-      guardrails_policy_setting
+      guardrails_query
     where
-      policy_type_uri = 'tmod:@turbot/turbot#/policy/types/workspaceVersion'
+      query = '{
+      accounts: resources(
+        filter: "resourceTypeId:tmod:@turbot/turbot#/resource/interfaces/accountable level:self"
+      ) {
+        metadata {
+          stats {
+            total
+          }
+        }
+      }
+    }';
+  EOQ
+}
+
+query "alerts_total" {
+  sql = <<-EOQ
+    select
+      sum((output -> 'alerts' -> 'metadata' -> 'stats' ->> 'total')::int) as "Alerts - alarm, invalid, error"
+    from
+      guardrails_query
+    where
+      query = '{
+      alerts: controls(filter: "state:alarm,invalid,error") {
+        metadata {
+          stats {
+            total
+          }
+        }
+      }
+    }';
+  EOQ
+}
+
+query "policy_settings_total" {
+  sql = <<-EOQ
+    select
+      sum((output -> 'policySettings' -> 'metadata' -> 'stats' ->> 'total')::int) as "Policy Settings"
+    from
+      guardrails_query
+    where
+      query = '{
+      policySettings: policySettings {
+        metadata {
+          stats {
+            total
+          }
+        }
+      }
+    }';
+  EOQ
+}
+
+query "workspace_stats" {
+  sql = <<-EOQ
+    select
+      workspace as "Workspace",
+      (output -> 'accounts' -> 'metadata' -> 'stats' ->> 'total')::int as "Accounts",
+      (output -> 'resources' -> 'metadata' -> 'stats' ->> 'total')::int as "Resources",
+      (output -> 'policySettings' -> 'metadata' -> 'stats' ->> 'total')::int as "Policy Settings",
+      (output -> 'alerts' -> 'metadata' -> 'stats' ->> 'total')::int as "Alerts",
+      (output -> 'active_controls' -> 'metadata' -> 'stats' ->> 'total')::int as "Active Controls"
+    from
+      guardrails_query
+    where
+      query = '{
+      accounts: resources(
+        filter: "resourceTypeId:tmod:@turbot/turbot#/resource/interfaces/accountable level:self"
+      ) {
+        metadata {
+          stats {
+            total
+          }
+        }
+      }
+      resources: resources(
+        filter: "resourceTypeId:tmod:@turbot/aws#/resource/types/aws,tmod:@turbot/azure#/resource/types/azure,tmod:@turbot/gcp#/resource/types/gcp"
+      ) {
+        metadata {
+          stats {
+            total
+          }
+        }
+      }
+      policySettings: policySettings {
+        metadata {
+          stats {
+            total
+          }
+        }
+      }
+      alerts: controls(filter: "state:alarm,invalid,error") {
+        metadata {
+          stats {
+            total
+          }
+        }
+      }
+      active_controls: controls(
+        filter: "state:active resourceTypeId:tmod:@turbot/aws#/resource/types/aws,tmod:@turbot/azure#/resource/types/azure,tmod:@turbot/gcp#/resource/types/gcp"
+      ) {
+        metadata {
+          stats {
+            total
+          }
+        }
+      }
+    }'
     order by
-      value;
+      "Workspace";
   EOQ
 }
