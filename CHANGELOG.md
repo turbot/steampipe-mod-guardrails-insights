@@ -1,3 +1,9 @@
+## v0.4 [2024-04-19]
+
+_Enhancements_
+
+- Updated the `cards` , `charts` and `tables` for `workspace_account_report` , `workspace_dashboard` and `workspace_report` dashboards for better data represenation. ([#31](https://github.com/turbot/steampipe-mod-guardrails-insights/pull/31))
+
 ## v0.3 [2024-03-06]
 
 _Powerpipe_
