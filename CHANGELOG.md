@@ -2,7 +2,8 @@
 
 _Enhancements_
 
-- Updated the `cards` , `charts` and `tables` for `workspace_account_report` , `workspace_dashboard` and `workspace_report` dashboards for better data represenation. ([#31](https://github.com/turbot/steampipe-mod-guardrails-insights/pull/31))
+- Updated the `cards`, `charts`, and `tables` for the `workspace_dashboard` dashboard to include information on the accounts, resources, and active controls across different workspaces. ([#31](https://github.com/turbot/steampipe-mod-guardrails-insights/pull/31))
+- Updated the `workspace_account_report` dashboard to display resources, policy settings, alerts, and active controls across workspaces instead of the TE version. ([#31](https://github.com/turbot/steampipe-mod-guardrails-insights/pull/31))
 
 ## v0.3 [2024-03-06]
 
