@@ -1,3 +1,10 @@
+## v0.5 [TBD]
+
+_Enhancements_
+
+- Added `workspace_benchmark` benchmark to include Cache, Database, and Mod installations for workspace health assessment.
+- Added `workspace_report_for_admin` dashboard to provide detailed insights into the number of stacks, policies, and controls categorized by state.
+
 ## v0.4 [2024-04-19]
 
 _Enhancements_
