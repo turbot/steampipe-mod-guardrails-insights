@@ -71,7 +71,7 @@ query "cache_health_check" {
     where
       control_type_uri = 'tmod:@turbot/turbot#/control/types/cacheHealthCheck' 
     order by
-      workspace
+      workspace;
   EOQ
 }
 
@@ -95,7 +95,7 @@ query "mod_health_benchmark" {
     group by
       workspace, id, state, resource_trunk_title, reason
     order by
-      workspace
+      workspace;
   EOQ
 }
 
@@ -119,7 +119,7 @@ query "mod_process_monitor_benchmark" {
     group by
       workspace, id, state, resource_trunk_title, reason
     order by
-      workspace
+      workspace;
   EOQ
 }
 
@@ -141,7 +141,7 @@ query "smart_process_retention" {
     where
       control_type_uri = 'tmod:@turbot/turbot#/control/types/smartProcessRetention'
     order by
-      workspace
+      workspace;
   EOQ
 }
 
@@ -163,7 +163,7 @@ query "smart_retention" {
     where
       control_type_uri = 'tmod:@turbot/turbot#/control/types/smartRetention'
     order by
-      workspace
+      workspace;
   EOQ
 }
 
@@ -185,6 +185,6 @@ query "workspace_health_control" {
     where
       control_type_uri = 'tmod:@turbot/turbot#/control/types/workspaceHealthControl'
     order by
-      workspace
+      workspace;
   EOQ
 }
