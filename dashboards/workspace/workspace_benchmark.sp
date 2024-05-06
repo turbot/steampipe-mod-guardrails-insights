@@ -1,4 +1,4 @@
-benchmark "guardrails_workspace" {
+benchmark "workspace_health" {
   title = "Turbot Guardrails Workspace Health"
   tags = merge(local.workspace_common_tags, {
     type     = "Benchmark"
@@ -6,14 +6,14 @@ benchmark "guardrails_workspace" {
   })
 
   description   = "Run Turbot Guardrails Workspace Health benchmarks across all your Guardrails workspaces. It covers control checks for Cache, Mods, Database and Workspace health."
-  documentation = file("./dashboards/workspace/docs/workspace_benchmark.md")
+  documentation = file("./dashboards/workspace/docs/workspace_health.md")
   children = [
     control.cache_health_check,
     control.mod_health,
     control.mod_process_monitor,
     control.smart_process_retention,
     control.smart_retention,
-    control.workspace_health_control,
+    control.workspace_health_control
   ]
 }
 
@@ -58,22 +58,20 @@ query "cache_health_check" {
     select
       id as resource,
       case 
-        when state = 'ok' then 'ok'
-        when state in ('error', 'tbd', 'invalid') then 'error'
-        when state = 'alarm' then 'alarm'
-        when state = 'skipped' then 'skipped'
-        else 'alarm'
+        when state in ('tbd', 'invalid') then 'info'
+        else state
       end as status,
       case
-        when state = 'ok' then split_part(workspace, '//', 2) || ' is healthy.'
-        else split_part(workspace, '//', 2) || ' ' || reason || '.'
-        end as reason
-        ${local.common_dimensions_sql}
+        when state = 'ok' then split_part(workspace, '//', 2) || ' is healthy.' 
+        else split_part(workspace, '//', 2) || ' ' || reason || '.' 
+      end as reason 
+      ${local.common_dimensions_sql} 
     from
-      guardrails_control
+      guardrails_control 
     where
-      control_type_uri = 'tmod:@turbot/turbot#/control/types/cacheHealthCheck'
-    order by workspace
+      control_type_uri = 'tmod:@turbot/turbot#/control/types/cacheHealthCheck' 
+    order by
+      workspace
   EOQ
 }
 
@@ -88,14 +86,16 @@ query "mod_health_benchmark" {
       case
         when state = 'ok' then split_part(resource_trunk_title, '>', 2) || ' is healthy.'
         else split_part(resource_trunk_title, '>', 2) || ' ' || reason || '.'
-        end as reason
-        ${local.common_dimensions_sql}
+      end as reason
+      ${local.common_dimensions_sql}
     from
       guardrails_control
     where
       control_type_uri = 'tmod:@turbot/turbot#/control/types/modHealth'
-    group by workspace,id,state,resource_trunk_title,reason
-    order by workspace
+    group by
+      workspace, id, state, resource_trunk_title, reason
+    order by
+      workspace
   EOQ
 }
 
@@ -110,14 +110,16 @@ query "mod_process_monitor_benchmark" {
       case
         when state = 'ok' then split_part(workspace, '//', 2) || ' is healthy.'
         else split_part(workspace, '//', 2) || ' ' || reason || '.'
-        end as reason
-        ${local.common_dimensions_sql}
+      end as reason
+      ${local.common_dimensions_sql}
     from
       guardrails_control
     where
       control_type_uri = 'tmod:@turbot/turbot#/control/types/processMonitor'
-    group by workspace,id,state,resource_trunk_title,reason
-    order by workspace
+    group by
+      workspace, id, state, resource_trunk_title, reason
+    order by
+      workspace
   EOQ
 }
 
@@ -126,22 +128,20 @@ query "smart_process_retention" {
     select
       id as resource,
       case 
-        when state = 'ok' then 'ok'
-        when state in ('error', 'tbd', 'invalid') then 'error'
-        when state = 'alarm' then 'alarm'
-        when state = 'skipped' then 'skipped'
-        else 'alarm'
+        when state in ('tbd', 'invalid') then 'info'
+        else state
       end as status,
       case
         when state = 'ok' then split_part(workspace, '//', 2) || ' is healthy.'
         else split_part(workspace, '//', 2) || ' ' || reason || '.'
-        end as reason
-        ${local.common_dimensions_sql}
+      end as reason
+      ${local.common_dimensions_sql}
     from
       guardrails_control
     where
       control_type_uri = 'tmod:@turbot/turbot#/control/types/smartProcessRetention'
-    order by workspace
+    order by
+      workspace
   EOQ
 }
 
@@ -150,22 +150,20 @@ query "smart_retention" {
     select
       id as resource,
       case 
-        when state = 'ok' then 'ok'
-        when state in ('error', 'tbd', 'invalid') then 'error'
-        when state = 'alarm' then 'alarm'
-        when state = 'skipped' then 'skipped'
-        else 'alarm'
+        when state in ('tbd', 'invalid') then 'info'
+        else state
       end as status,
       case
         when state = 'ok' then split_part(workspace, '//', 2) || ' is healthy.'
         else split_part(workspace, '//', 2) || ' ' || reason || '.'
-        end as reason
+      end as reason
       ${local.common_dimensions_sql}
     from
       guardrails_control
     where
       control_type_uri = 'tmod:@turbot/turbot#/control/types/smartRetention'
-    order by workspace
+    order by
+      workspace
   EOQ
 }
 
@@ -180,12 +178,13 @@ query "workspace_health_control" {
       case
         when state = 'ok' then split_part(workspace, '//', 2) || ' is healthy.'
         else split_part(workspace, '//', 2) || ' ' || reason || '.'
-        end as reason
-        ${local.common_dimensions_sql}
+      end as reason
+      ${local.common_dimensions_sql}
     from
       guardrails_control
     where
       control_type_uri = 'tmod:@turbot/turbot#/control/types/workspaceHealthControl'
-    order by workspace
+    order by
+      workspace
   EOQ
 }

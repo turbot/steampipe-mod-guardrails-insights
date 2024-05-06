@@ -1,7 +1,6 @@
 dashboard "workspace_report_admin" {
-
   title         = "Turbot Guardrails Workspace Report for Admin"
-  documentation = file("./dashboards/workspace/docs/workspace_report_for_admin.md")
+  documentation = file("./dashboards/workspace/docs/workspace_report_admin.md")
 
   tags = merge(local.workspace_common_tags, {
     type     = "Report"
@@ -12,26 +11,26 @@ dashboard "workspace_report_admin" {
   container {
     card {
       sql   = query.workspaces_count.sql
-      width = 2
+      width = 3
       href  = dashboard.workspace_report.url_path
     }
 
     card {
       sql   = query.accounts_total.sql
-      width = 2
+      width = 3
       href  = dashboard.workspace_account_report.url_path
     }
 
     card {
       sql   = query.resources_count.sql
-      width = 2
+      width = 3
     }
   }
 
   container {
     title = "Stacks Summary"
     table {
-      width = 8
+      width = 12
       sql   = query.stacks_aggregate.sql
     }
   }
@@ -39,7 +38,7 @@ dashboard "workspace_report_admin" {
   container {
     title = "Policy Values Summary"
     table {
-      width = 8
+      width = 12
       sql   = query.policies_summary.sql
     }
   }
@@ -47,7 +46,7 @@ dashboard "workspace_report_admin" {
   container {
     title = "Controls Summary"
     table {
-      width = 8
+      width = 12
       sql   = query.controls_summary.sql
     }
   }
@@ -82,9 +81,8 @@ query "stacks_aggregate" {
           else 0
         end
       ) as "TBD"
-
     from
-    guardrails_control as c
+      guardrails_control as c
     where
       control_type_uri IN (
         'tmod:@turbot/aws#/control/types/accountStack',
@@ -93,7 +91,7 @@ query "stacks_aggregate" {
         'tmod:@turbot/aws-vpc-core#/control/types/vpcStack'
       )
     group by
-    "Stack";
+      "Stack";
   EOQ
 }
 
@@ -166,6 +164,6 @@ query "controls_summary" {
         }
       }
     }
-    }'
+    }';
   EOQ
 }
