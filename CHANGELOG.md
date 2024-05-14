@@ -1,3 +1,12 @@
+## v0.5 [2024-05-14]
+
+_What's new?_
+
+- New dashboards added:
+  - [Turbot Guardrails Workspace Report for Admin](https://hub.steampipe.io/mods/turbot/guardrails_insights/dashboards/dashboard.workspace_report_admin)
+- New benchmark added:
+  - [Turbot Guardrails Workspace Health](https://hub.steampipe.io/mods/turbot/guardrails_insights/controls/benchmark.workspace_health)
+
 ## v0.4 [2024-04-19]
 
 _Enhancements_
