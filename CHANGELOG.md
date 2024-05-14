@@ -1,9 +1,11 @@
-## v0.5 [TBD]
+## v0.5 [2024-05-14]
 
-_Enhancements_
+_What's new?_
 
-- Added `workspace_benchmark` benchmark to include Cache, Database, and Mod installations for workspace health assessment.
-- Added `workspace_report_for_admin` dashboard to provide detailed insights into the number of stacks, policies, and controls categorized by state.
+- New dashboards added:
+  - [Turbot Guardrails Workspace Report for Admin](https://hub.steampipe.io/mods/turbot/guardrails_insights/dashboards/dashboard.workspace_report_admin)
+- New benchmark added:
+  - [Turbot Guardrails Workspace Health](https://hub.steampipe.io/mods/turbot/guardrails_insights/controls/benchmark.workspace_health)
 
 ## v0.4 [2024-04-19]
 
