@@ -41,7 +41,6 @@ control "guardrails_workspace_activity_retention" {
 query "guardrails_workspace_user_activity" {
   sql = <<-EOQ
     select
-        workspace,
         workspace as resource,
         CASE 
             WHEN count(
@@ -96,9 +95,9 @@ query "guardrails_workspace_user_activity" {
 query "guardrails_mod_auto_update" {
   sql = <<-EOQ
     select
-      workspace,
-      id as resource,
       resource_trunk_title,
+      workspace,
+      workspace as resource,
       CASE 
         WHEN value = 'Enforce within Mod Change Window' THEN 'ok'
         ELSE 'alarm'
@@ -160,3 +159,5 @@ query "guardrails_activity_retention" {
   EOQ
 }
 
+
+# select value, id from guardrails_policy_value where policy_type_title = 'Turbot > Workspace > Retention > Activity Retention';
