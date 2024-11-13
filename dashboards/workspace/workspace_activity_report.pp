@@ -127,7 +127,7 @@ query "guardrails_retention" {
       END AS status,
       CASE 
         WHEN value = 'Enforce: Enable purging via Smart Retention' THEN 'Policy recommendation met'
-        ELSE 'recommendation not met'
+        ELSE 'Policy recommendation not met'
       END AS reason
     from
       guardrails_policy_setting
