@@ -5,7 +5,7 @@ benchmark "workspace_user_activity" {
     category = "Health"
   })
 
-  description   = "Turbot Guardrails Workspace Activity"
+  description = "Turbot Guardrails Workspace Activity"
   children = [
     control.guardrails_workspace_user_activity,
     control.guardrails_workspace_mod_auto_update,
@@ -40,57 +40,55 @@ control "guardrails_workspace_activity_retention" {
 
 query "guardrails_workspace_user_activity" {
   sql = <<-EOQ
-    select
-        workspace as resource,
+    SELECT
+        g.workspace,
+        g.workspace AS resource,
         CASE 
-            WHEN count(
+            WHEN COUNT(
                 CASE 
-                    WHEN (notifications -> 'resource' -> 'turbot' -> 'akas') ->> 1 NOT LIKE '%@turbot.com' 
+                    WHEN (n.notifications ->> 'email') NOT LIKE '%@turbot.com' 
                     THEN 1 
                     ELSE NULL 
                 END
             ) = 0 THEN 'alarm'
             ELSE 'ok'
-        END as status,
+        END AS status,
         CASE 
-            WHEN count(
+            WHEN COUNT(
                 CASE 
-                    WHEN (notifications -> 'resource' -> 'turbot' -> 'akas') ->> 1 NOT LIKE '%@turbot.com' 
+                    WHEN (n.notifications ->> 'email') NOT LIKE '%@turbot.com' 
                     THEN 1 
                     ELSE NULL 
                 END
             ) = 0 THEN 'Workspace is Inactive. No User Login for 30 Days.'
             ELSE 'Workspace is Active.'
-        END as reason
-    from
-        guardrails_query,
-        jsonb_array_elements(output -> 'notifications' -> 'items') as notifications
-    where
-        query = '{
-            notifications: notifications(
-                filter: [
-                    "resourceTypeId:tmod:@turbot/turbot-iam#/resource/types/profile",
-                    "!$.lastLoginTimestamp:null",
-                    "$.lastLoginTimestamp:<=T-30d",
-                    "sort:-updateTimestamp"
-                ]
-            ) {
-                items {
-                    resource {
-                        lastLoginTimestamp: get(path: "lastLoginTimestamp")
-                        trunk {
-                            title
-                        }
-                        turbot {
-                            akas
-                        }
-                    }
-                }
+        END AS reason
+    FROM
+        guardrails_query g
+    LEFT JOIN LATERAL
+        jsonb_array_elements(g.output -> 'notifications' -> 'items') AS n(notifications) ON TRUE
+    WHERE
+        g.query = '{
+          notifications: resources(
+            filter: "resourceTypeId:tmod:@turbot/turbot-iam#/resource/types/profile,tmod:@turbot/turbot-iam#/resource/types/groupProfile,tmod:@turbot/aws-iam#/resource/types/instanceProfile $.lastLoginTimestamp:>=T-30d"
+          ) {
+            items {
+              email: get(path:"email")
+              lastLoginTimestamp: get(path: "lastLoginTimestamp")
+              trunk {
+                title
+              }
+              turbot {
+                akas
+              }
             }
+          }
         }'
-    group by workspace;
+    GROUP BY
+        g.workspace;
   EOQ
 }
+
 
 query "guardrails_mod_auto_update" {
   sql = <<-EOQ
@@ -139,25 +137,27 @@ query "guardrails_retention" {
 
 query "guardrails_activity_retention" {
   sql = <<-EOQ
-    select
-      workspace,
-      id as resource,
+    SELECT
+      ws.workspace,
+      ps.id AS resource,
       CASE 
-        WHEN value = 'None' THEN 'alarm'
+        WHEN ps.value IS NULL OR ps.value = '' THEN 'alarm'
+        WHEN ps.value = 'None' THEN 'alarm'
         ELSE 'ok'
       END AS status,
       CASE 
-        WHEN value = 'None' THEN 'Policy recommendation not met'
+        WHEN ps.value IS NULL OR ps.value = '' THEN 'Policy recommendation not met'
+        WHEN ps.value = 'None' THEN 'Policy recommendation not met'
         ELSE 'ok'
       END AS reason
-    from
-      guardrails_policy_setting
-    where
-      policy_type_uri = 'tmod:@turbot/turbot#/policy/types/activityRetention'
-    order by 
-      workspace;
+    FROM
+      (SELECT DISTINCT workspace FROM guardrails_policy_setting) ws
+    LEFT JOIN
+      guardrails_policy_setting ps
+    ON
+      ws.workspace = ps.workspace
+      AND ps.policy_type_uri = 'tmod:@turbot/turbot#/policy/types/activityRetention'
+    ORDER BY
+      ws.workspace;
   EOQ
 }
-
-
-# select value, id from guardrails_policy_value where policy_type_title = 'Turbot > Workspace > Retention > Activity Retention';
