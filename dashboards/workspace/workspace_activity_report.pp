@@ -1,6 +1,6 @@
-benchmark "workspace_user_activity" {
+benchmark "workspace_activity" {
   title = "Turbot Guardrails Workspace Activity"
-  documentation = file("./dashboards/workspace/docs/workspace_activity_report.md")
+  documentation = file("./dashboards/workspace/docs/workspace_activity.md")
   tags = merge(local.workspace_common_tags, {
     type     = "Benchmark"
     category = "Health"
@@ -41,34 +41,34 @@ control "guardrails_workspace_activity_retention" {
 
 query "guardrails_workspace_user_activity" {
   sql = <<-EOQ
-    SELECT
+    select
         g.workspace,
-        g.workspace AS resource,
-        CASE 
-            WHEN COUNT(
-                CASE 
-                    WHEN (n.notifications ->> 'email') NOT LIKE '%@turbot.com' 
-                    THEN 1 
-                    ELSE NULL 
-                END
-            ) = 0 THEN 'alarm'
-            ELSE 'ok'
-        END AS status,
-        CASE 
-            WHEN COUNT(
-                CASE 
-                    WHEN (n.notifications ->> 'email') NOT LIKE '%@turbot.com' 
-                    THEN 1 
-                    ELSE NULL 
-                END
-            ) = 0 THEN 'Workspace is Inactive. No User Login for 30 Days.'
-            ELSE 'Workspace is Active.'
-        END AS reason
-    FROM
+        g.workspace as resource,
+        case
+            when count(
+                case
+                    when (n.notifications ->> 'email') NOT LIKE '%@turbot.com'
+                    then 1
+                    else null
+                end
+            ) = 0 then 'alarm'
+            else 'ok'
+        end as status,
+        case
+            when count(
+                case
+                    when (n.notifications ->> 'email') NOT LIKE '%@turbot.com'
+                    then 1
+                    else null
+                end
+            ) = 0 then 'Workspace is Inactive. No User Login for 30 Days.'
+            else 'Workspace is Active.'
+        end as reason
+    from
         guardrails_query g
-    LEFT JOIN LATERAL
-        jsonb_array_elements(g.output -> 'notifications' -> 'items') AS n(notifications) ON TRUE
-    WHERE
+    left join lateral
+        jsonb_array_elements(g.output -> 'notifications' -> 'items') as n(notifications) ON TRUE
+    where
         g.query = '{
           notifications: resources(
             filter: "resourceTypeId:tmod:@turbot/turbot-iam#/resource/types/profile,tmod:@turbot/turbot-iam#/resource/types/groupProfile,tmod:@turbot/aws-iam#/resource/types/instanceProfile $.lastLoginTimestamp:>=T-30d"
@@ -85,7 +85,7 @@ query "guardrails_workspace_user_activity" {
             }
           }
         }'
-    GROUP BY
+    group by
         g.workspace;
   EOQ
 }
@@ -97,19 +97,19 @@ query "guardrails_mod_auto_update" {
       resource_trunk_title,
       workspace,
       workspace as resource,
-      CASE 
-        WHEN value = 'Enforce within Mod Change Window' THEN 'ok'
-        ELSE 'alarm'
-      END AS status,
-      CASE 
-        WHEN value = 'Enforce within Mod Change Window' THEN 'Policy recommendation met'
-        ELSE 'Policy recommendation not met'
-      END AS reason
+      case
+        when value = 'Enforce within Mod Change Window' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when value = 'Enforce within Mod Change Window' then 'Policy recommendation met'
+        else 'Policy recommendation not met'
+      end as reason
     from
       guardrails_policy_setting
     where
       policy_type_uri = 'tmod:@turbot/turbot#/policy/types/modAutoUpdate'
-    order by 
+    order by
       workspace;
   EOQ
 }
@@ -119,46 +119,46 @@ query "guardrails_retention" {
     select
       workspace,
       id as resource,
-      CASE 
-        WHEN value = 'Enforce: Enable purging via Smart Retention' THEN 'ok'
-        ELSE 'alarm'
-      END AS status,
-      CASE 
-        WHEN value = 'Enforce: Enable purging via Smart Retention' THEN 'Policy recommendation met'
-        ELSE 'Policy recommendation not met'
-      END AS reason
+      case
+        when value = 'Enforce: Enable purging via Smart Retention' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when value = 'Enforce: Enable purging via Smart Retention' then 'Policy recommendation met'
+        else 'Policy recommendation not met'
+      end as reason
     from
       guardrails_policy_setting
     where
       policy_type_uri = 'tmod:@turbot/turbot#/policy/types/retention'
-    order by 
+    order by
       workspace;
   EOQ
 }
 
 query "guardrails_activity_retention" {
   sql = <<-EOQ
-    SELECT
+    select
       ws.workspace,
-      ps.id AS resource,
-      CASE 
-        WHEN ps.value IS NULL OR ps.value = '' THEN 'alarm'
-        WHEN ps.value = 'None' THEN 'alarm'
-        ELSE 'ok'
-      END AS status,
-      CASE 
-        WHEN ps.value IS NULL OR ps.value = '' THEN 'Policy recommendation not met'
-        WHEN ps.value = 'None' THEN 'Policy recommendation not met'
-        ELSE 'ok'
-      END AS reason
-    FROM
-      (SELECT DISTINCT workspace FROM guardrails_policy_setting) ws
-    LEFT JOIN
+      ps.id as resource,
+      case
+        when ps.value IS null OR ps.value = '' then 'alarm'
+        when ps.value = 'None' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when ps.value IS null OR ps.value = '' then 'Policy recommendation not met'
+        when ps.value = 'None' then 'Policy recommendation not met'
+        else 'ok'
+      end as reason
+    from
+      (select distinct workspace from guardrails_policy_setting) ws
+    left join
       guardrails_policy_setting ps
-    ON
+    on
       ws.workspace = ps.workspace
-      AND ps.policy_type_uri = 'tmod:@turbot/turbot#/policy/types/activityRetention'
-    ORDER BY
+      and ps.policy_type_uri = 'tmod:@turbot/turbot#/policy/types/activityRetention'
+    order by
       ws.workspace;
   EOQ
 }

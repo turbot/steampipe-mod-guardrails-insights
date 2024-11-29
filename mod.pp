@@ -6,16 +6,17 @@ mod "guardrails_insights" {
   documentation = file("./docs/index.md")
   icon          = "/images/mods/turbot/guardrails-insights.svg"
   categories    = ["guardrails", "dashboard", "security"]
-
   opengraph {
     title       = "Powerpipe Mod for Turbot Guardrails Insights"
     description = "Create dashboards and reports for your Turbot Guardrails resources using Powerpipe and Steampipe."
     image       = "/images/mod/turbot/guardrails-insights-social-graphic.png"
   }
-
   require {
     plugin "guardrails" {
       min_version = "0.15.0"
+    }
+    mod "github.com/turbot/steampipe-mod-aws-compliance" {
+      version = "*"
     }
   }
 }
