@@ -15,8 +15,5 @@ mod "guardrails_insights" {
     plugin "guardrails" {
       min_version = "0.15.0"
     }
-    mod "github.com/turbot/steampipe-mod-aws-compliance" {
-      version = "*"
-    }
   }
 }
