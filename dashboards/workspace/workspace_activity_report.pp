@@ -1,5 +1,6 @@
 benchmark "workspace_user_activity" {
   title = "Turbot Guardrails Workspace Activity"
+  documentation = file("./dashboards/workspace/docs/workspace_user_activity.md")
   tags = merge(local.workspace_common_tags, {
     type     = "Benchmark"
     category = "Health"
