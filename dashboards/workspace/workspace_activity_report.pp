@@ -90,7 +90,6 @@ query "guardrails_workspace_user_activity" {
   EOQ
 }
 
-
 query "guardrails_mod_auto_update" {
   sql = <<-EOQ
     select
