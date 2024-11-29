@@ -47,7 +47,7 @@ query "guardrails_workspace_user_activity" {
         case
             when count(
                 case
-                    when (n.notifications ->> 'email') NOT LIKE '%@turbot.com'
+                    when (n.notifications ->> 'email') not like '%@turbot.com'
                     then 1
                     else null
                 end
@@ -57,7 +57,7 @@ query "guardrails_workspace_user_activity" {
         case
             when count(
                 case
-                    when (n.notifications ->> 'email') NOT LIKE '%@turbot.com'
+                    when (n.notifications ->> 'email') not like '%@turbot.com'
                     then 1
                     else null
                 end
@@ -141,12 +141,12 @@ query "guardrails_activity_retention" {
       ws.workspace,
       ps.id as resource,
       case
-        when ps.value IS null OR ps.value = '' then 'alarm'
+        when ps.value is null or ps.value = '' then 'alarm'
         when ps.value = 'None' then 'alarm'
         else 'ok'
       end as status,
       case
-        when ps.value IS null OR ps.value = '' then 'Policy recommendation not met'
+        when ps.value is null or ps.value = '' then 'Policy recommendation not met'
         when ps.value = 'None' then 'Policy recommendation not met'
         else 'ok'
       end as reason
