@@ -1,9 +1,10 @@
 benchmark "workspace_activity" {
-  title = "Turbot Guardrails Workspace Activity"
+  title         = "Turbot Guardrails Workspace Activity"
   documentation = file("./dashboards/workspace/docs/workspace_activity.md")
   tags = merge(local.workspace_common_tags, {
     type     = "Benchmark"
     category = "Health"
+    service  = "Guardrails/Workspace"
   })
 
   description = "Turbot Guardrails Workspace Activity"
@@ -19,24 +20,36 @@ control "guardrails_workspace_user_activity" {
   title       = "Turbot > User Login History"
   description = "Check User Login activity in customer workspaces"
   query       = query.guardrails_workspace_user_activity
+  tags = {
+    service = "Guardrails/Workspace"
+  }
 }
 
 control "guardrails_workspace_mod_auto_update" {
   title       = "Turbot > Workspace > Auto Update"
   description = "Check the policy values for guardrails mod auto updates"
   query       = query.guardrails_mod_auto_update
+  tags = {
+    service = "Guardrails/Workspace"
+  }
 }
 
 control "guardrails_workspace_retention" {
   title       = "Turbot > Workspace > Retention"
   description = "Check the policy values for guardrails workspace retention"
   query       = query.guardrails_retention
+  tags = {
+    service = "Guardrails/Workspace"
+  }
 }
 
 control "guardrails_workspace_activity_retention" {
   title       = "Turbot > Workspace > Retention > Activity Retention"
   description = "Check the policy values for guardrails workspace activity retention"
   query       = query.guardrails_activity_retention
+  tags = {
+    service = "Guardrails/Workspace"
+  }
 }
 
 query "guardrails_workspace_user_activity" {

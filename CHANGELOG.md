@@ -1,3 +1,9 @@
+## v1.2.0 [2025-04-15]
+
+_Enhancements_
+
+- Added service tags such as `Guardrails/Mod`, `Guardrails/Workspace`, and others to relevant controls for improved organization and filtering. ([#42](https://github.com/turbot/steampipe-mod-guardrails-insights/pull/42))
+
 ## v1.1.0 [2024-12-02]
 
 _What's new?_
