@@ -21,7 +21,7 @@ control "cache_health_check" {
   title       = "Turbot > Cache > Health Check"
   description = "Check Cache health status."
   query       = query.cache_health_check
-  tags       = {
+  tags = {
     service = "Guardrails/Control"
   }
 }
@@ -30,7 +30,7 @@ control "mod_health" {
   title       = "Turbot > Mod > Health"
   description = "Workspaces Mod health summary."
   query       = query.mod_health_benchmark
-  tags        = {
+  tags = {
     service = "Guardrails/Mod"
   }
 }
@@ -39,7 +39,7 @@ control "mod_process_monitor" {
   title       = "Turbot > Mod > Process Monitor"
   description = "Workspaces Mod Process Monitor summary."
   query       = query.mod_process_monitor_benchmark
-  tags        = {
+  tags = {
     service = "Guardrails/Mod"
   }
 }
@@ -48,7 +48,7 @@ control "smart_process_retention" {
   title       = "Turbot > Smart Process Retention"
   description = "Smart Process Retention health summary."
   query       = query.smart_process_retention
-  tags        = {
+  tags = {
     service = "Guardrails/Control"
   }
 }
@@ -57,7 +57,7 @@ control "smart_retention" {
   title       = "Turbot > Smart Retention"
   description = "Smart Retention health summary."
   query       = query.smart_retention
-  tags        = {
+  tags = {
     service = "Guardrails/Control"
   }
 }
@@ -66,7 +66,7 @@ control "workspace_health_control" {
   title       = "Turbot > Workspace > Health Control"
   description = "DB Queries health summary."
   query       = query.workspace_health_control
-  tags        = {
+  tags = {
     service = "Guardrails/Workspace"
   }
 }
