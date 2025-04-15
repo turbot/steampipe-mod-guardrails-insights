@@ -4,6 +4,7 @@ benchmark "workspace_activity" {
   tags = merge(local.workspace_common_tags, {
     type     = "Benchmark"
     category = "Health"
+    service  = "Guardrails/Workspace"
   })
 
   description = "Turbot Guardrails Workspace Activity"
